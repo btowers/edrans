@@ -3,7 +3,11 @@ import config from "../../../config";
 import { ErrorCode, Presistence } from "../../../utils/enums";
 import { productS } from "../../../api/productService";
 import { UserI } from "../../../interfaces/userInterface";
-import { CartBaseClass, CartItemI } from "../../../interfaces/cartInterface";
+import {
+  CartBaseClass,
+  CartI,
+  CartItemI,
+} from "../../../interfaces/cartInterface";
 
 const CartSchema = new Schema<CartI>(
   {
