@@ -4,6 +4,7 @@ import { ErrorCode } from "../utils/enums";
 import { ProductFactoryDAO } from "../models/product/productFactory";
 import {
   NewProductI,
+  UpdateProductI,
   ProductI,
   ProductQuery,
 } from "../interfaces/productInterface";
@@ -27,7 +28,7 @@ class ProductService {
    * @param {NewProductI} product
    */
   async createProduct(product: NewProductI): Promise<ProductI> {
-    return this.product.createProduct(product);
+    return this.product.create(product);
   }
 
   /**
@@ -43,8 +44,8 @@ class ProductService {
    * @param {string} id
    * @param {NewProductI} product
    */
-  async updateProduct(id: string, product: NewProductI): Promise<ProductI> {
-    return this.product.updateProduct(id, product);
+  async updateProduct(id: string, product: UpdateProductI): Promise<ProductI> {
+    return this.product.update(id, product);
   }
 
   /**
@@ -86,7 +87,7 @@ class ProductService {
     const product = await this.product.getProducts({ _id });
     if (!product) throw Error(ErrorCode.ProductsNotFound);
     if (product[0].fotos.length) await imageS.deleteImages(product[0].fotos); // delete images from S3 before delete product
-    return this.product.deleteProduct(_id);
+    return this.product.delete(_id);
   }
 
   /**

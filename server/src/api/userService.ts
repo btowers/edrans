@@ -35,7 +35,7 @@ class UserService {
   }
 
   /**
-   * @description Get user by email
+   * @description Get user by ID
    * @param {string} id
    * @return {UserI}
    */

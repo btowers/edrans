@@ -28,10 +28,10 @@ class OrderService {
 
   /**
    * @description Get orders
-   * @param {any} query
+   * @param {string} id
    */
-  async getOrders(query?: any): Promise<OrderI[]> {
-    return this.order.getOrders(query);
+  async getOrders(id?: string): Promise<OrderI[]> {
+    return this.order.getOrders(id);
   }
 
   /**

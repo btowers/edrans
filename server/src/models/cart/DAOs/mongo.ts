@@ -3,7 +3,7 @@ import config from "../../../config";
 import { ErrorCode, Presistence } from "../../../utils/enums";
 import { productS } from "../../../api/productService";
 import { UserI } from "../../../interfaces/userInterface";
-import { CartBaseClass, CartI } from "../../../interfaces/cartInterface";
+import { CartBaseClass, CartItemI } from "../../../interfaces/cartInterface";
 
 const CartSchema = new Schema<CartI>(
   {
@@ -103,10 +103,7 @@ export class Cart implements CartBaseClass {
    * @param {object} product The id of the product to be stored
    * @return {Promise} The stored product
    */
-  async addProductToCart(
-    userId: string,
-    product: { product: string; qty: number }
-  ): Promise<any> {
+  async addProductToCart(userId: string, product: CartItemI): Promise<any> {
     const cart = await this.CartModel.findOne({ userId: userId });
     if (!cart) throw new Error(ErrorCode.CartNotFound);
     const index = cart.products.findIndex(
@@ -126,7 +123,7 @@ export class Cart implements CartBaseClass {
    */
   async deleteProductFromCart(
     userId: string,
-    product: { product: string; qty: number }
+    product: CartItemI
   ): Promise<any> {
     const cart = await this.CartModel.findOne({ userId: userId });
     if (!cart) throw new Error(ErrorCode.BadRequest);

@@ -13,7 +13,7 @@ export interface NewProductI {
   stock: number;
 }
 
-export interface updateProductI {
+export interface UpdateProductI {
   nombre?: string;
   descripcion?: string;
   categoria?: string;
@@ -35,25 +35,33 @@ export interface ProductQuery {
 
 export interface ProductBaseClass {
   getProducts(query?: ProductQuery): Promise<ProductI[]>;
-  createProduct(data: NewProductI): Promise<ProductI>;
-  updateProduct(id: string, product: NewProductI): Promise<ProductI>;
+  create(data: NewProductI): Promise<ProductI>;
+  update(id: string, product: NewProductI): Promise<ProductI>;
   updateStockProduct(id: string, qty: number): Promise<ProductI>;
-  deleteProduct(id: string): Promise<ProductI>;
+  delete(id: string): Promise<ProductI>;
 }
 
 export const NewProductJoiSchema = Joi.object({
-  nombre: Joi.string().required(),
-  categoria: Joi.string().required(),
+  nombre: Joi.string().required().max(50).min(3),
+  categoria: Joi.string().required().max(50).min(3),
   descripcion: Joi.string().required(),
-  stock: Joi.number().required(),
-  precio: Joi.number().required(),
+  stock: Joi.number().required().min(0),
+  precio: Joi.number().required().min(0),
 });
 
 export const ProductJoiSchema = Joi.object({
-  nombre: Joi.string(),
-  descripcion: Joi.string(),
+  nombre: Joi.string().max(50).min(3),
+  descripcion: Joi.string().max(50).min(3),
   categoria: Joi.string(),
   foto: Joi.string(),
   stock: Joi.number().min(0),
   precio: Joi.number().min(0),
+});
+
+export const ProductQueryJoiSchema = Joi.object({
+  nombre: Joi.string().max(50).min(3),
+  minPrice: Joi.number().min(0),
+  maxPrice: Joi.number().min(0),
+  minStock: Joi.number().min(0),
+  maxStock: Joi.number().min(0),
 });

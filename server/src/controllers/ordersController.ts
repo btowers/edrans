@@ -10,32 +10,32 @@ import "express-async-errors";
 class OrderController {
   /**
    *
-   * @param {Request} _req
+   * @param {Request} req
    * @param {Response} res
    * @param {NextFunction} next
    */
   async getOrders(
-    _req: Request,
+    req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const query = { ...res.locals.query, ...res.locals.params };
-    const orders = await orderS.getOrders(query);
+    const { id } = req.params;
+    const orders = await orderS.getOrders(id);
     res.status(200).json({ data: orders });
   }
 
   /**
    *
-   * @param {Request} _req
+   * @param {Request} req
    * @param {Response} res
    * @param {NextFunction} next
    */
   async completeOrder(
-    _req: Request,
+    req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const id = res.locals.orderId;
+    const { id } = req.body;
     const result = await orderS.completeOrder(id);
     if (!result) throw new Error(ErrorCode.BadRequest);
     // await mailerS.send(result);

@@ -12,7 +12,7 @@ class Validator {
    * @param {object} product
    * @return {Promise}
    */
-  productToCart = (product: object) => {
+  isValidProduct = (product: object) => {
     const schema = Joi.object({
       product: Joi.custom(ObjectIdValidator).required().messages({
         "product.error": `invalid ObjectId`,

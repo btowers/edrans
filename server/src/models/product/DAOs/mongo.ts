@@ -8,16 +8,37 @@ import {
   ProductBaseClass,
   ProductI,
   ProductQuery,
-  updateProductI,
+  UpdateProductI,
 } from "../../../interfaces/productInterface";
 
-const ProductSchema = new Mongoose.Schema({
-  nombre: { type: String, required: true },
-  descripcion: { type: String, required: true },
-  categoria: { type: String, required: true, lowercase: true },
-  precio: { type: Number, required: true },
+const ProductSchema = new Mongoose.Schema<ProductI>({
+  nombre: {
+    type: String,
+    required: true,
+  },
+  descripcion: {
+    type: String,
+    required: true,
+  },
+  categoria: {
+    type: String,
+    required: true,
+    lowercase: true,
+  },
+  precio: {
+    type: Number,
+    required: true,
+  },
   stock: { type: Number, default: 0 },
   fotos: { type: [String], default: [] },
+});
+
+ProductSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
 });
 
 /**
@@ -85,7 +106,7 @@ export class Product implements ProductBaseClass {
    * @param {Object} product The product to be saved
    * @return {ProductI} The product saved
    */
-  async createProduct(product: NewProductI): Promise<ProductI> {
+  async create(product: NewProductI): Promise<ProductI> {
     return this.ProductModel.create(product);
   }
 
@@ -94,7 +115,7 @@ export class Product implements ProductBaseClass {
    * @param {string} id The id of the product to update
    * @param {Object} product The fields to update
    */
-  async updateProduct(id: string, product: updateProductI): Promise<ProductI> {
+  async update(id: string, product: UpdateProductI): Promise<ProductI> {
     return this.ProductModel.findByIdAndUpdate(
       id,
       {
@@ -108,7 +129,7 @@ export class Product implements ProductBaseClass {
    * @description Delete one product
    * @param {string} id The id of the product to delete
    */
-  async deleteProduct(id: string): Promise<ProductI> {
+  async delete(id: string): Promise<ProductI> {
     return this.ProductModel.findByIdAndRemove(id);
   }
 

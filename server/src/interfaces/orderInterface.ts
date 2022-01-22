@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import { CartI } from "./cartInterface";
 
-export interface OrderI {
+export interface OrderI extends newOrderI {
   _id: mongoose.Types.ObjectId;
-  userId: mongoose.Types.ObjectId;
   direccionEntrega: {
     calle: string;
     altura: string;
@@ -11,13 +10,6 @@ export interface OrderI {
     piso?: string;
     departamento?: string;
   };
-  items: {
-    productId: mongoose.Types.ObjectId;
-    precio: number;
-    qty: number;
-  }[];
-  status: string;
-  total: number;
   createdAt: Date;
 }
 
@@ -37,7 +29,7 @@ export interface OrderQuery {
 }
 
 export interface OrderBaseClass {
-  getOrders(query?: string): Promise<OrderI[]>;
+  getOrders(id?: string): Promise<OrderI[]>;
   createOrder(cart: CartI): Promise<OrderI>;
   completeOrder(id: string): Promise<OrderI>;
   deleteOrder(id: string): Promise<OrderI>;

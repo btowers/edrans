@@ -12,9 +12,12 @@ import {
 import bcrypt from "bcryptjs";
 
 const UserSchema = new Schema<UserI>({
-  nombre: { type: String, required: true },
+  nombre: {
+    type: String,
+    required: true,
+  },
   identificador: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: {
     type: String,
     required: true,
@@ -34,6 +37,15 @@ UserSchema.pre("save", async function (next) {
   const hash = await bcrypt.hash(user.password, 10);
   this.password = hash;
   next();
+});
+
+UserSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+    delete returnedObject.password;
+  },
 });
 
 /**

@@ -1,5 +1,5 @@
 import { CartFactoryDAO } from "../models/cart/cartFactory";
-import { CartI } from "../interfaces/cartInterface";
+import { CartI, CartItemI } from "../interfaces/cartInterface";
 import { UserI } from "../interfaces/userInterface";
 import { ErrorCode } from "../utils/enums";
 import { productS } from "./productService";
@@ -50,34 +50,28 @@ class CartService {
   /**
    *
    * @param {string} cartId
-   * @param {object} product
+   * @param {CartItemI} cartItem
    * @return {Promise<CartI>}
    */
-  async addProductToCart(
-    cartId: string,
-    product: { product: string; qty: number }
-  ): Promise<CartI> {
-    const query: ProductQuery = { _id: product.product };
+  async addProductToCart(cartId: string, cartItem: CartItemI): Promise<CartI> {
+    const query: ProductQuery = { _id: cartItem.product };
     const result = await productS.getProducts(query);
     if (!result.length) throw new Error(ErrorCode.BadRequest);
-    if (result[0].stock < product.qty)
+    if (result[0].stock < cartItem.qty)
       throw new Error(ErrorCode.NotEnoughStock);
-    return this.carts.addProductToCart(cartId, product);
+    return this.carts.addProductToCart(cartId, cartItem);
   }
 
   /**
    *
    * @param {string} cartId
-   * @param {object} product
+   * @param {CartItemI} cartItem
    */
-  async deleteProductFromCart(
-    cartId: string,
-    product: { product: string; qty: number }
-  ) {
-    const query = { _id: product.product };
+  async deleteProductFromCart(cartId: string, cartItem: CartItemI) {
+    const query = { _id: cartItem.product };
     const result = await productS.getProducts(query);
     if (result.length < 1) throw new Error(ErrorCode.BadRequest);
-    return this.carts.deleteProductFromCart(cartId, product);
+    return this.carts.deleteProductFromCart(cartId, cartItem);
   }
 
   /**

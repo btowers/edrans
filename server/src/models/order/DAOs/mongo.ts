@@ -46,6 +46,14 @@ const OrderSchema = new Schema(
   { timestamps: { createdAt: "createdAt" } }
 );
 
+OrderSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
 /**
  * @class Orders
  */
@@ -69,15 +77,12 @@ export class Order implements OrderBaseClass {
 
   /**
    * @description List orders
-   * @param {string} query The id of the order to list, if none all orders will be returned
+   * @param {string} id The id of the order to list, if none all orders will be returned
    * @return {OrderI[]} Array with the orders found in the file or Object with a single order
    */
-  async getOrders(query: any = {}): Promise<OrderI[]> {
-    if (query._id) {
-      return this.OrderModel.findById(query._id, { __v: 0 });
-    } else {
-      return this.OrderModel.find(query, { __v: 0 });
-    }
+  async getOrders(id?: string): Promise<OrderI[]> {
+    if (id) return this.OrderModel.findById(id);
+    else return this.OrderModel.find();
   }
 
   /**

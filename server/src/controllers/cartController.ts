@@ -3,6 +3,7 @@ import { cartS } from "../api/cartService";
 import { orderS } from "../api/orderService";
 import { mailerS } from "../services/mailer";
 import { UserI } from "../interfaces/userInterface";
+import { CartItemI } from "../interfaces/cartInterface";
 import { ErrorCode } from "../utils/enums";
 import "express-async-errors";
 
@@ -59,8 +60,8 @@ class CartController {
     next: NextFunction
   ): Promise<void> => {
     const userId: string = req.user!._id;
-    const product = res.locals.product;
-    const result = await cartS.addProductToCart(userId, product);
+    const cartItem = req.body as CartItemI;
+    const result = await cartS.addProductToCart(userId, cartItem);
     res.status(201).json({ data: result });
   };
 
