@@ -1,10 +1,10 @@
-import express from 'express';
-import { authM } from '../middleware/auth';
+import express from 'express'
+import { authM } from '../middleware/auth'
 
-const router = express.Router();
+const router = express.Router()
 
 // Public Routes
-router.post('/signup', authM.signup);
-router.post('/login', authM.login);
+router.post('/signup', authM.signup)
+router.post('/login', authM.login)
 
-export default router;
+export default router

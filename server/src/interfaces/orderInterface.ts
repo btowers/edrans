@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { CartI } from "./cartInterface";
+import mongoose from 'mongoose';
+import { CartI } from './cartInterface';
 
 export interface OrderI extends newOrderI {
   _id: mongoose.Types.ObjectId;
