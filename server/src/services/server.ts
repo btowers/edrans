@@ -18,11 +18,11 @@ const app = express()
 app.use(helmet())
 app.use(cors())
 app.use(function (req, res, next) {
-    res.setHeader(
-        'Content-Security-Policy',
-        "default-src *; font-src 'self'; img-src *; script-src 'self'; style-src 'self'; frame-src 'self'"
-    )
-    next()
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src *; font-src 'self'; img-src * blob:;script-src 'self'; style-src 'self'; frame-src 'self'"
+  )
+  next()
 })
 
 // 2 - Compression

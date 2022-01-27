@@ -1,13 +1,15 @@
 import express from 'express'
 import { productsC } from '../controllers/productsController'
-import { authM } from '../middleware/auth'
+import { userC } from '../controllers/userController'
 const router = express.Router()
 
 // Public Routes
-router.get('/:category?', productsC.getProducts)
+router.get('/', productsC.getProducts)
+router.get('/category/:category?', productsC.getProducts)
+router.get('/:id', productsC.getProduct)
 
 // Protected Routes
-router.use(authM.isAuth)
+router.use(userC.isAuth)
 router.post('/', productsC.createProduct)
 router.delete('/:id', productsC.deleteProduct)
 router.put('/:id', productsC.updateProduct)

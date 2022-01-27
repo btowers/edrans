@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import { cartC } from '../controllers/cartController'
-import { authM } from '../middleware/auth'
+import { userC } from '../controllers/userController'
 
 const router = Router()
 
 // Protected Routes
-router.use(authM.isAuth)
+router.use(userC.isAuth)
 router.get('/', cartC.getCart)
 router.put('/add', cartC.addProductToCart)
 router.post('/delete', cartC.deleteProductFromCart)

@@ -1,10 +1,10 @@
 import express from 'express'
-import { authM } from '../middleware/auth'
+import { userC } from '../controllers/userController'
 
 const router = express.Router()
 
 // Public Routes
-router.post('/signup', authM.signup)
-router.post('/login', authM.login)
+router.post('/signup', userC.signup)
+router.post('/login', userC.login)
 
 export default router
