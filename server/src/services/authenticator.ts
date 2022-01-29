@@ -21,9 +21,9 @@ const jwtStrategyOptions = {
 }
 
 const googleStrategyOptions = {
-  clientID: GOOGLE_CLIENT_ID,
-  clientSecret: GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://www.example.com/auth/google/callback',
+  clientID: config.GOOGLE_CLIENT_ID,
+  clientSecret: config.GOOGLE_CLIENT_SECRET,
+  callbackURL: 'http://www.aurube.com/auth/google/callback',
 }
 
 const jwtFunc = async (jwtPayload: any, done: any): Promise<any> => {
@@ -71,10 +71,34 @@ const signUpFunc = async (
   return done(null, savedUser)
 }
 
-const googleLoginFunc = async (accessToken, refreshToken, profile, cb) => {
-  User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    return cb(err, user)
-  })
+const googleLoginFunc = async (
+  _accessToken: string,
+  _refreshToken: string,
+  profile: any,
+  cb: any
+): Promise<any> => {
+  console.log(profile)
+  const user = await userS.getUser(profile.emails[0].value)
+  if (!user) {
+    const newUser: NewUserI = {
+      nombre: profile.displayName,
+      direccion: {
+        calle: '',
+        altura: '',
+        cp: '',
+        piso: '',
+        departamento: '',
+      },
+      identificador: profile.id,
+      email: profile.emails[0].value,
+      password: '',
+      confirmPassword: '',
+      admin: false,
+    }
+    const savedUser = await userS.createUser(newUser)
+    await cartS.createCart(savedUser)
+  }
+  return cb(null, user)
 }
 
 passport.use('jwt', new JwtStrategy(jwtStrategyOptions, jwtFunc))

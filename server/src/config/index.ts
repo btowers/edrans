@@ -5,15 +5,19 @@ dotenv.config()
 const venv = {
   MODE: process.env.MODE || 'cluster',
   NODE_ENV: process.env.NODE_ENV || 'development',
-  AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME || 'images',
-  AWS_ACCESS_KEYid: process.env.AWS_ACCESS_KEYid,
-  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-  AWS_REGION: process.env.AWS_REGION,
-
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || 'secretKey',
   TOKEN_KEEP_ALIVE: process.env.TOKEN_KEEP_ALIVE || '36000000',
   PORT: process.env.PORT || 8080,
   DB_TYPE: Number(process.env.DB_TYPE) || Presistence.MongoDBSaaS,
+
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'my_client_id',
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || 'my_client_secret',
+
+  AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME || 'images',
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+  AWS_REGION: process.env.AWS_REGION,
+
   MONGO_DB_NAME: process.env.MONGO_DB_NAME || 'test',
   MONGO_ATLAS_URI: process.env.MONGO_ATLAS_URI || 'clusterUrl',
   MONGO_LOCAL_URI: process.env.MONGO_LOCAL_URI || 'mongodb://localhost:27017/ecommerce',

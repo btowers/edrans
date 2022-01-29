@@ -5,7 +5,7 @@ import bluebird from 'bluebird'
 
 class Image {
   s3 = new aws.S3({
-    accessKeyId: config.AWS_ACCESS_KEYid,
+    accessKeyId: config.AWS_ACCESS_KEY_ID,
     secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
     region: config.AWS_REGION,
   })
