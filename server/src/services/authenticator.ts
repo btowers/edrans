@@ -4,6 +4,7 @@ import config from '../config'
 import passport from 'passport'
 import { Strategy as LocalStrategy, IStrategyOptionsWithRequest } from 'passport-local'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import { cartS } from '../api/cartService'
 import { userS } from '../api/userService'
 import { UserJoiSchema, UserCredentialsJoiSchema } from '../interfaces/userInterface'
@@ -17,6 +18,12 @@ const localStrategyOptions: IStrategyOptionsWithRequest = {
 const jwtStrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.JWT_SECRET_KEY,
+}
+
+const googleStrategyOptions = {
+  clientID: GOOGLE_CLIENT_ID,
+  clientSecret: GOOGLE_CLIENT_SECRET,
+  callbackURL: 'http://www.example.com/auth/google/callback',
 }
 
 const jwtFunc = async (jwtPayload: any, done: any): Promise<any> => {
@@ -64,9 +71,16 @@ const signUpFunc = async (
   return done(null, savedUser)
 }
 
+const googleLoginFunc = async (accessToken, refreshToken, profile, cb) => {
+  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    return cb(err, user)
+  })
+}
+
 passport.use('jwt', new JwtStrategy(jwtStrategyOptions, jwtFunc))
 passport.use('login', new LocalStrategy(localStrategyOptions, loginFunc))
 passport.use('signup', new LocalStrategy(localStrategyOptions, signUpFunc))
+passport.use('google', new GoogleStrategy(googleStrategyOptions, googleLoginFunc))
 
 passport.serializeUser(function (user, done) {
   done(null, user.id)

@@ -13,7 +13,7 @@ class ImageController {
   }
 
   getPresignedUrl = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const fileName = uuidv4() + '.' + req.body.type.split('/')[1]
+    const fileName = uuidv4() + '.' + req.body.type
     const url = await imageS.getPresignedUrl(fileName)
     await productS.updateImagesProduct(req.body.productId, fileName)
     res.status(200).json({ data: url })

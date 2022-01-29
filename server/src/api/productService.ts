@@ -40,9 +40,9 @@ class ProductService {
   }
 
   async deleteProduct(id: string): Promise<ProductI> {
-    const product = await this.product.getProducts({ id })
+    const product = await this.product.getProduct(id)
     if (!product) throw Error(ErrorCode.ProductsNotFound)
-    if (product[0].fotos.length) await imageS.deleteImages(product[0].fotos) // delete images from S3 before delete product
+    if (product.fotos.length) await imageS.deleteImages(product.fotos) // delete images from S3 before delete product
     return this.product.delete(id)
   }
 

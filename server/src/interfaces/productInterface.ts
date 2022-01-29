@@ -51,11 +51,11 @@ export const NewProductJoiSchema = Joi.object({
 
 export const ProductJoiSchema = Joi.object({
   nombre: Joi.string().max(50).min(3),
-  descripcion: Joi.string().max(50).min(3),
-  categoria: Joi.string(),
+  descripcion: Joi.string().max(500).min(3),
+  categoria: Joi.string().max(50).min(3),
   foto: Joi.string(),
-  stock: Joi.number().min(0),
-  precio: Joi.number().min(0),
+  stock: Joi.number().min(0).max(1000),
+  precio: Joi.number().min(0).max(1000000),
 })
 
 export const ProductQueryJoiSchema = Joi.object({
