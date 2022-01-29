@@ -4,7 +4,7 @@ import config from '../config'
 import passport from 'passport'
 import { Strategy as LocalStrategy, IStrategyOptionsWithRequest } from 'passport-local'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { cartS } from '../api/cartService'
 import { userS } from '../api/userService'
 import { UserJoiSchema, UserCredentialsJoiSchema } from '../interfaces/userInterface'
@@ -20,10 +20,10 @@ const jwtStrategyOptions = {
   secretOrKey: config.JWT_SECRET_KEY,
 }
 
-const googleStrategyOptions = {
-  clientID: config.GOOGLE_CLIENT_ID,
-  clientSecret: config.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://www.aurube.com/auth/google/callback',
+const FacebookStrategyOptions = {
+  clientID: config.FACEBOOK_APP_ID,
+  clientSecret: config.FACEBOOK_APP_SECRET,
+  callbackURL: 'https://https://edranschallenge.herokuapp.com/api/user/facebook/redirect',
 }
 
 const jwtFunc = async (jwtPayload: any, done: any): Promise<any> => {
@@ -71,7 +71,7 @@ const signUpFunc = async (
   return done(null, savedUser)
 }
 
-const googleLoginFunc = async (
+const facebookLoginFunc = async (
   _accessToken: string,
   _refreshToken: string,
   profile: any,
@@ -79,6 +79,7 @@ const googleLoginFunc = async (
 ): Promise<any> => {
   console.log(profile)
   const user = await userS.getUser(profile.emails[0].value)
+  /*
   if (!user) {
     const newUser: NewUserI = {
       nombre: profile.displayName,
@@ -97,14 +98,14 @@ const googleLoginFunc = async (
     }
     const savedUser = await userS.createUser(newUser)
     await cartS.createCart(savedUser)
-  }
+  }*/
   return cb(null, user)
 }
 
 passport.use('jwt', new JwtStrategy(jwtStrategyOptions, jwtFunc))
 passport.use('login', new LocalStrategy(localStrategyOptions, loginFunc))
 passport.use('signup', new LocalStrategy(localStrategyOptions, signUpFunc))
-passport.use('google', new GoogleStrategy(googleStrategyOptions, googleLoginFunc))
+passport.use('facebook', new FacebookStrategy(FacebookStrategyOptions, facebookLoginFunc))
 
 passport.serializeUser(function (user, done) {
   done(null, user.id)

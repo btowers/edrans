@@ -51,8 +51,8 @@ class UserController {
     })(req, res, next)
   }
 
-  async googleLogin(req: Request, res: Response, next: NextFunction) {
-    passport.authenticate('google', { session: false }, function (err, user, info) {
+  async facebookLogin(req: Request, res: Response, next: NextFunction) {
+    passport.authenticate('facebook', { session: false }, function (err, user, info) {
       if (err) {
         res.status(400).json({ error: err.message })
       } else {

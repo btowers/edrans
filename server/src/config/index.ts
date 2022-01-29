@@ -10,8 +10,8 @@ const venv = {
   PORT: process.env.PORT || 8080,
   DB_TYPE: Number(process.env.DB_TYPE) || Presistence.MongoDBSaaS,
 
-  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'my_client_id',
-  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || 'my_client_secret',
+  FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID || 'my_client_id',
+  FACEBOOK_APP_SECRET: process.env.FACEBOOK_APP_SECRET || 'my_client_secret',
 
   AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME || 'images',
   AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,

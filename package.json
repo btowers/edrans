@@ -1,0 +1,25 @@
+{
+  "name": "edrans",
+  "version": "1.0.0",
+  "description": "<img src=\"https://ugeek.github.io/blog/images-blog/node.png\" width=\"150px\" align=\"right\" />",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./server/dist/index.js",
+    "build": "cd ./server && npm run build ",
+    "build:start": "npm run build && npm run start",
+    "heroku-prebuild": "npm install --prefix server && npm install --prefix client",
+    "heroku-postbuild": "cd ./server && npm run build && cd ../client && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btowers/edrans.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/btowers/edrans/issues"
+  },
+  "homepage": "https://github.com/btowers/edrans#readme"
+}
