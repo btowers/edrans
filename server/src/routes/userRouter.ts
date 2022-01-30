@@ -11,7 +11,7 @@ router.get('/facebook', userC.facebookLogin)
 router.get(
   '/facebook/redirect',
   passport.authenticate('facebook', {
-    successRedirect: '/login',
+    successRedirect: '/',
     failureRedirect: '/login',
   })
 )
