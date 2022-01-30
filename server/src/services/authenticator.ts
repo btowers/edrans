@@ -92,7 +92,7 @@ const facebookLoginFunc = async (
       departamento: '',
     },
     identificador: profile.id,
-    email: profile.emails[0].value,
+    email: '',
     password: '',
     confirmPassword: '',
     admin: false,

@@ -52,17 +52,21 @@ class UserController {
   }
 
   async facebookLogin(req: Request, res: Response, next: NextFunction) {
-    passport.authenticate('facebook', { session: false }, function (err, user, info) {
-      if (err) {
-        res.status(400).json({ error: err.message })
-      } else {
-        if (!user) {
-          res.status(400).json({ error: info })
+    passport.authenticate(
+      'facebook',
+      { session: false, scope: ['email'] },
+      function (err, user, info) {
+        if (err) {
+          res.status(400).json({ error: err.message })
         } else {
-          res.status(201).json({ data: user })
+          if (!user) {
+            res.status(400).json({ error: info })
+          } else {
+            res.status(201).json({ data: user })
+          }
         }
       }
-    })(req, res, next)
+    )(req, res, next)
   }
 
   async isAuth(req: Request, res: Response, next: NextFunction) {
