@@ -23,7 +23,7 @@ const jwtStrategyOptions = {
 const FacebookStrategyOptions = {
   clientID: config.FACEBOOK_APP_ID,
   clientSecret: config.FACEBOOK_APP_SECRET,
-  callbackURL: 'https://https://edranschallenge.herokuapp.com/api/user/facebook/redirect',
+  callbackURL: 'https://edranschallenge.herokuapp.com/api/user/facebook/redirect',
 }
 
 const jwtFunc = async (jwtPayload: any, done: any): Promise<any> => {

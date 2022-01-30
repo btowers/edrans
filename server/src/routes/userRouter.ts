@@ -10,10 +10,10 @@ router.post('/login', userC.login)
 router.get('/facebook', userC.facebookLogin)
 router.get(
   '/facebook/redirect',
-  passport.authenticate('facebook', { failureRedirect: '/login', failureMessage: true }),
-  function (req, res) {
-    res.redirect('/')
-  }
+  passport.authenticate('facebook', {
+    successRedirect: '/login',
+    failureRedirect: '/login',
+  })
 )
 
 export default router
