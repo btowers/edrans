@@ -24,6 +24,7 @@ const FacebookStrategyOptions = {
   clientID: config.FACEBOOK_APP_ID,
   clientSecret: config.FACEBOOK_APP_SECRET,
   callbackURL: 'https://edranschallenge.herokuapp.com/api/user/facebook/redirect',
+  profileFields: ['displayName', 'email'],
 }
 
 const jwtFunc = async (jwtPayload: any, done: any): Promise<any> => {
@@ -78,28 +79,28 @@ const facebookLoginFunc = async (
   cb: any
 ): Promise<any> => {
   console.log(profile)
-  const user = await userS.getUser(profile.emails[0].value)
-  /*
-  if (!user) {
-    const newUser: NewUserI = {
-      nombre: profile.displayName,
-      direccion: {
-        calle: '',
-        altura: '',
-        cp: '',
-        piso: '',
-        departamento: '',
-      },
-      identificador: profile.id,
-      email: profile.emails[0].value,
-      password: '',
-      confirmPassword: '',
-      admin: false,
-    }
-    const savedUser = await userS.createUser(newUser)
-    await cartS.createCart(savedUser)
-  }*/
-  return cb(null, user)
+  //const user = await userS.getUser(profile.emails[0].value)
+
+  // if (true) {
+  const newUser: NewUserI = {
+    nombre: profile.displayName,
+    direccion: {
+      calle: '',
+      altura: '',
+      cp: '',
+      piso: '',
+      departamento: '',
+    },
+    identificador: profile.id,
+    email: profile.emails[0].value,
+    password: '',
+    confirmPassword: '',
+    admin: false,
+    //   }
+    //  const savedUser = await userS.createUser(newUser)
+    //  await cartS.createCart(savedUser)
+  }
+  return cb(null, newUser)
 }
 
 passport.use('jwt', new JwtStrategy(jwtStrategyOptions, jwtFunc))
