@@ -60,16 +60,20 @@ const signUpFunc = async (
   _password: string,
   done: any
 ): Promise<any> => {
-  const newUser: NewUserI = req.body
-  await UserJoiSchema.validateAsync(newUser)
-  if (newUser.password !== newUser.confirmPassword) {
-    return done(null, false, 'Passwords do not match.')
+  try {
+    const newUser: NewUserI = req.body
+    await UserJoiSchema.validateAsync(newUser)
+    if (newUser.password !== newUser.confirmPassword) {
+      return done(null, false, 'Passwords do not match.')
+    }
+    const user = await userS.getUser(newUser.email)
+    if (user) return done(null, false, `User ${user.email} already exists`)
+    const savedUser = await userS.createUser(newUser)
+    await cartS.createCart(savedUser)
+    return done(null, savedUser)
+  } catch (error) {
+    return done(error, false)
   }
-  const user = await userS.getUser(newUser.email)
-  if (user) return done(null, false, `User ${user.email} already exists`)
-  const savedUser = await userS.createUser(newUser)
-  await cartS.createCart(savedUser)
-  return done(null, savedUser)
 }
 
 const facebookLoginFunc = async (
@@ -78,28 +82,32 @@ const facebookLoginFunc = async (
   profile: any,
   cb: any
 ): Promise<any> => {
-  console.log(profile.emails[0].value)
-  const user = await userS.getUser(profile.emails[0].value)
-  if (!user) {
-    const newUser: NewUserI = {
-      nombre: profile.displayName,
-      direccion: {
-        calle: 'facebook',
-        altura: '234',
-        cp: '234',
-        piso: '24',
-        departamento: '1234',
-      },
-      identificador: profile.id,
-      email: profile.emails[0].value,
-      password: 'Brianbrako2!',
-      confirmPassword: 'Brianbrako2!',
-      admin: false,
+  try {
+    console.log(profile.emails[0].value)
+    const user = await userS.getUser(profile.emails[0].value)
+    if (!user) {
+      const newUser: NewUserI = {
+        nombre: profile.displayName,
+        direccion: {
+          calle: 'facebook',
+          altura: '234',
+          cp: '234',
+          piso: '24',
+          departamento: '1234',
+        },
+        identificador: profile.id,
+        email: profile.emails[0].value,
+        password: 'Brianbrako2!',
+        confirmPassword: 'Brianbrako2!',
+        admin: false,
+      }
+      const savedUser = await userS.createUser(newUser)
+      await cartS.createCart(savedUser)
     }
-    const savedUser = await userS.createUser(newUser)
-    await cartS.createCart(savedUser)
+    return cb(null, user)
+  } catch {
+    return cb(null, false)
   }
-  return cb(null, user)
 }
 
 passport.use('jwt', new JwtStrategy(jwtStrategyOptions, jwtFunc))

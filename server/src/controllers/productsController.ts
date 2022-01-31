@@ -26,6 +26,7 @@ class ProductsController {
     const { id } = req.params
     if (Object.keys(id).length != 0) await ProductIdJoiSchema.validateAsync(id)
     const product = await productS.getProduct(id)
+    if (!product) throw new Error(ErrorCode.ProductsNotFound)
     res.status(200).json({ data: product })
   }
 

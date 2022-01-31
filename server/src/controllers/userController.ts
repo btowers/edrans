@@ -17,6 +17,7 @@ class UserController {
         } else {
           payload = {
             sub: user.id,
+            admin: user.admin,
           }
           jwt.sign(
             payload,

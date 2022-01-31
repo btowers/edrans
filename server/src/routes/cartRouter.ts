@@ -9,6 +9,6 @@ router.use(userC.isAuth)
 router.get('/', cartC.getCart)
 router.put('/add', cartC.addProductToCart)
 router.post('/delete', cartC.deleteProductFromCart)
-router.post('/submit', cartC.buyCart)
+router.get('/submit', cartC.buyCart)
 
 export default router

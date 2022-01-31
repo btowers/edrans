@@ -7,7 +7,8 @@
     "build": "ttsc -P ./tsconfig.json",
     "start": "node ./dist/index.js",
     "build:start": "npm run build && npm run start",
-    "dev": "./node_modules/.bin/nodemon"
+    "dev": "./node_modules/.bin/nodemon",
+    "start-gendoc": "node ./swagger.js"
   },
   "keywords": [],
   "author": "Brian Towers",
@@ -15,7 +16,6 @@
   "dependencies": {
     "aws-sdk": "^2.1048.0",
     "bcryptjs": "^2.4.3",
-    "bluebird": "^3.7.2",
     "compression": "^1.7.4",
     "connect-history-api-fallback": "^1.6.0",
     "cookie-parser": "^1.4.5",
@@ -35,14 +35,10 @@
     "passport-facebook": "^3.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "socket.io": "^4.4.0",
-    "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.3.0",
-    "ttypescript": "^1.5.13",
+    "swagger-ui-express": "^4.1.6",
     "typescript": "^4.5.4",
     "uuid": "^8.3.2",
-    "winston": "^3.3.3",
-    "@zerollup/ts-transform-paths": "^1.7.18"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -70,14 +66,15 @@
     "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
+    "@zerollup/ts-transform-paths": "^1.7.18",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
-    "supertest": "^6.1.6",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "ttypescript": "^1.5.13"
   },
   "engines": {
     "node": ">=16.0.0"

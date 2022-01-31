@@ -31,36 +31,6 @@ const venv = {
       apiKey: process.env.SENDGRID_API_KEY || 'apikey',
     },
   },
-
-  swaggerOptions: {
-    definition: {
-      openapi: '1.0.0',
-      info: {
-        title: 'Edrans Challenge',
-        version: '0.0.1',
-        description:
-          'This is a simple CRUD API application made with Express and documented with Swagger',
-
-        contact: {
-          name: 'Brian',
-          url: 'https://github.com/btowers',
-          email: 'brian@towers.ar',
-        },
-        license: {
-          name: 'MIT',
-          url: 'https://opensource.org/licenses/MIT',
-        },
-      },
-
-      servers: [
-        {
-          url: 'http://localhost:8080',
-          description: 'Development server',
-        },
-      ],
-    },
-    apis: ['server/src/docs/*'],
-  },
 }
 
 export default venv

@@ -1,4 +1,6 @@
+import Joi from 'joi'
 import mongoose from 'mongoose'
+import { ObjectIdValidator } from '../utils/idValidator'
 import { CartI } from './cartInterface'
 
 export interface OrderI extends newOrderI {
@@ -35,3 +37,7 @@ export interface OrderBaseClass {
   deleteOrder(id: string): Promise<OrderI>
   queryOrders(options: OrderQuery): Promise<OrderI[]>
 }
+
+export const OrderIdJoiSchema = Joi.string().custom(ObjectIdValidator).messages({
+  'id.error': `invalid ObjectId`,
+})

@@ -7,10 +7,9 @@ import compression from 'compression'
 import history from 'connect-history-api-fallback'
 import apiRouter from '../routes'
 import passport from './authenticator'
-import config from '../config'
 import path from 'path'
 import swaggerUi from 'swagger-ui-express'
-import swaggerJSDoc from 'swagger-jsdoc'
+import docs from '../docs'
 
 const app = express()
 
@@ -42,7 +41,7 @@ app.use(passport.initialize())
 
 // 6 - Routing
 app.use('/api', apiRouter)
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(config.swaggerOptions)))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(docs))
 app.use(history())
 app.use(express.static(path.resolve(__dirname, '../../public')))
 
