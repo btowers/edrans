@@ -8,15 +8,6 @@ const router = express.Router()
 router.post('/signup', userC.signup)
 router.post('/login', userC.login)
 router.get('/facebook', userC.facebookLogin)
-router.get(
-  '/facebook/redirect',
-  passport.authenticate('facebook', {
-    failureRedirect: '/login',
-  }),
-  function (req, res) {
-    console.log(req.user)
-    res.cookie('token', 'holaaaa').redirect('/')
-  }
-)
+router.get('/facebook/redirect', userC.facebookLogin)
 
 export default router

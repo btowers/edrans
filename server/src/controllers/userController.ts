@@ -82,7 +82,7 @@ class UserController {
                 } else {
                   console.log('AUTHENTICATEDDDD 2')
                   console.log(token)
-                  res.cookie('token', token)
+                  res.cookie('token', token).redirect('/')
                   // res.status(200).json({ token })
                 }
               }
