@@ -60,10 +60,28 @@ class UserController {
         if (err) {
           res.status(400).json({ error: err.message })
         } else {
+          let payload = null
           if (!user) {
             res.status(400).json({ error: info })
           } else {
-            res.status(201).json({ data: user })
+            payload = {
+              sub: user.id,
+              admin: user.admin,
+            }
+            jwt.sign(
+              payload,
+              config.JWT_SECRET_KEY,
+              {
+                expiresIn: config.TOKEN_KEEP_ALIVE,
+              },
+              function (err, token) {
+                if (err) {
+                  throw Error(ErrorCode.BadRequest)
+                } else {
+                  res.status(200).json({ token })
+                }
+              }
+            )
           }
         }
       }
