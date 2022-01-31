@@ -68,6 +68,7 @@ class UserController {
               sub: user.id,
               admin: user.admin,
             }
+            console.log(payload)
             jwt.sign(
               payload,
               config.JWT_SECRET_KEY,
