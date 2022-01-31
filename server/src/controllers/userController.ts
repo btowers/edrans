@@ -4,8 +4,34 @@ import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import 'express-async-errors'
 import { ErrorCode } from '../utils/enums'
+import {
+  UpdateUserI,
+  UserI,
+  UserIdJoiSchema,
+  UserUpdateJoiSchema,
+} from '../interfaces/userInterface'
+import { userS } from '../api/userService'
 
 class UserController {
+  async getUser(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.user as UserI
+    await UserIdJoiSchema.validateAsync(id)
+    const user = await userS.getUserById(id)
+    if (!user) throw Error(ErrorCode.UserNotFound)
+    res.status(200).json({ data: user })
+  }
+
+  async updateUser(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params
+    const userFields = req.body as UpdateUserI
+    if (Object.keys(userFields).length == 0) throw new Error(ErrorCode.BadRequest)
+    await UserIdJoiSchema.validateAsync(id)
+    await UserUpdateJoiSchema.validateAsync(userFields)
+    const updatedUser = await userS.updateUser(id, userFields)
+    if (!updatedUser) throw Error(ErrorCode.UserNotFound)
+    res.status(200).json({ data: updatedUser })
+  }
+
   async login(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('login', { session: false }, function (err, user, info) {
       if (err) {
@@ -41,6 +67,7 @@ class UserController {
   async signup(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('signup', { session: false }, function (err, user, info) {
       if (err) {
+        console.log(err)
         res.status(400).json({ error: err.message })
       } else {
         if (!user) {

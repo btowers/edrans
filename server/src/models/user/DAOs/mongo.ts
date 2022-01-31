@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose'
 import config from '../../../config'
 import { Presistence } from '../../../utils/enums'
 
-import { NewUserI, UserBaseClass, UserI } from '../../../interfaces/userInterface'
+import { NewUserI, UpdateUserI, UserBaseClass, UserI } from '../../../interfaces/userInterface'
 
 import bcrypt from 'bcryptjs'
 
@@ -88,12 +88,16 @@ export class User implements UserBaseClass {
     return this.UserModel.findById(id)
   }
 
-  async update(id: string, user: UserI): Promise<UserI> {
-    return this.UserModel.findByIdAndUpdate({ id }, { $set: { user } }, { new: true })
+  async update(id: string, user: UpdateUserI): Promise<UserI> {
+    return this.UserModel.findByIdAndUpdate(
+      id,
+      { $set: user },
+      { new: true, returnNewDocument: true }
+    )
   }
 
   async delete(id: string): Promise<UserI> {
-    return this.UserModel.findByIdAndDelete({ id })
+    return this.UserModel.findByIdAndDelete(id)
   }
 
   async isValidPassword(user: UserI, password: string): Promise<boolean> {

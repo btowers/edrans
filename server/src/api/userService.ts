@@ -1,5 +1,5 @@
 import { UserFactoryDAO } from '../models/user/userFactory'
-import { NewUserI, UserI } from '../interfaces/userInterface'
+import { NewUserI, UpdateUserI, UserI } from '../interfaces/userInterface'
 import config from '../config'
 
 class UserService {
@@ -21,7 +21,7 @@ class UserService {
     return this.user.getById(id)
   }
 
-  async updateUser(id: string, user: UserI): Promise<UserI> {
+  async updateUser(id: string, user: UpdateUserI): Promise<UserI> {
     return this.user.update(id, user)
   }
 

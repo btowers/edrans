@@ -22,6 +22,19 @@ export interface NewUserI {
   fbId: string
 }
 
+export interface UpdateUserI {
+  direccion: {
+    calle?: string
+    altura?: string
+    cp?: string
+    piso?: string
+    departamento?: string
+  }
+  identificador?: string
+  password?: string
+  confirmPassword?: string
+}
+
 export interface UserBaseClass {
   create(user: NewUserI): Promise<UserI>
   getById(id: string): Promise<UserI>
@@ -43,13 +56,38 @@ export const UserJoiSchema = Joi.object({
   confirmPassword: Joi.string().required(),
   direccion: {
     calle: Joi.string().required().max(150),
-    altura: Joi.number().required().min(0),
-    cp: Joi.string().required().max(20),
-    piso: Joi.number().optional().allow('').max(5),
-    departamento: Joi.string().optional().allow('').max(5),
+    altura: Joi.number().required().min(0).max(9999),
+    cp: Joi.string().required().max(9999),
+    piso: Joi.number().optional().allow('').max(9999),
+    departamento: Joi.string().optional().allow('').max(3),
   },
-  identificador: Joi.string().required().max(150),
+  identificador: Joi.string()
+    .min(7)
+    .max(8)
+    .pattern(/^[0-9]+$/),
   admin: Joi.boolean(),
+})
+
+export const UserUpdateJoiSchema = Joi.object({
+  password: Joi.string()
+    .optional()
+    .allow('')
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/)
+    .error(new Error('invalid password format')),
+  confirmPassword: Joi.string().optional().allow(''),
+  direccion: {
+    calle: Joi.string().optional().allow('').max(150),
+    altura: Joi.number().optional().allow('').min(0).max(9999),
+    cp: Joi.string().optional().allow('').max(9999),
+    piso: Joi.number().optional().allow('').max(9999),
+    departamento: Joi.string().optional().allow('').max(3),
+  },
+  identificador: Joi.string()
+    .optional()
+    .allow('')
+    .min(7)
+    .max(8)
+    .pattern(/^[0-9]+$/),
 })
 
 export const UserCredentialsJoiSchema = Joi.object({
