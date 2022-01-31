@@ -13,8 +13,9 @@ router.get(
   passport.authenticate('facebook', {
     failureRedirect: '/login',
   }),
-  function (_req, res) {
-    res.cookie('token', 'holaaaa')
+  function (req, res) {
+    console.log(req.user)
+    res.cookie('token', 'holaaaa').redirect('/')
   }
 )
 
