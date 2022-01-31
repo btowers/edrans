@@ -68,6 +68,7 @@ class UserController {
               sub: user.id,
               admin: user.admin,
             }
+            console.log('AUTHENTICATEDDDD 1')
             jwt.sign(
               payload,
               config.JWT_SECRET_KEY,
@@ -78,6 +79,7 @@ class UserController {
                 if (err) {
                   throw Error(ErrorCode.BadRequest)
                 } else {
+                  console.log('AUTHENTICATEDDDD 2')
                   console.log(token)
                   res.cookie('token', token)
                   // res.status(200).json({ token })
