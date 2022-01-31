@@ -78,7 +78,8 @@ class UserController {
                 if (err) {
                   throw Error(ErrorCode.BadRequest)
                 } else {
-                  res.status(200).cookie('token', token).json({ token })
+                  console.log(token)
+                  res.cookie('token', token)
                   // res.status(200).json({ token })
                 }
               }
