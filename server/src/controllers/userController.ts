@@ -57,6 +57,7 @@ class UserController {
       'facebook',
       { session: false, scope: ['email'] },
       function (err, user, info) {
+        console.log('AUTHENTICATEDDDD 0')
         if (err) {
           res.status(400).json({ error: err.message })
         } else {

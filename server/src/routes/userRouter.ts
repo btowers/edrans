@@ -11,9 +11,11 @@ router.get('/facebook', userC.facebookLogin)
 router.get(
   '/facebook/redirect',
   passport.authenticate('facebook', {
-    successRedirect: '/',
     failureRedirect: '/login',
-  })
+  }),
+  function (_req, res) {
+    res.cookie('token', 'holaaaa')
+  }
 )
 
 export default router
