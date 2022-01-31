@@ -101,8 +101,11 @@ const facebookLoginFunc = async (
         confirmPassword: '',
         admin: false,
       }
+      console.log(newUser)
       const savedUser = await userS.createUser(newUser)
+      console.log(savedUser)
       await cartS.createCart(savedUser)
+      return cb(null, savedUser)
     }
     return cb(null, user)
   } catch {
