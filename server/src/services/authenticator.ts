@@ -89,16 +89,16 @@ const facebookLoginFunc = async (
       const newUser: NewUserI = {
         nombre: profile.displayName,
         direccion: {
-          calle: 'facebook',
-          altura: '234',
-          cp: '234',
-          piso: '24',
-          departamento: '1234',
+          calle: '',
+          altura: '',
+          cp: '',
+          piso: '',
+          departamento: '',
         },
         identificador: profile.id,
         email: profile.emails[0].value,
-        password: 'Brianbrako2!',
-        confirmPassword: 'Brianbrako2!',
+        password: '',
+        confirmPassword: '',
         admin: false,
       }
       const savedUser = await userS.createUser(newUser)

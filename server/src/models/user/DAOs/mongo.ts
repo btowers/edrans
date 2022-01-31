@@ -12,7 +12,7 @@ const UserSchema = new Schema<UserI>({
     type: String,
     required: true,
   },
-  identificador: { type: String, required: true },
+  identificador: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: {
     type: String,
