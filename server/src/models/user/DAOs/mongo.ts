@@ -10,22 +10,40 @@ import bcrypt from 'bcryptjs'
 const UserSchema = new Schema<UserI>({
   nombre: {
     type: String,
-    required: true,
+    // required: true,
   },
-  identificador: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
+  identificador: {
+    type: String,
+    //required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    //  required: true,
+    unique: true,
+  },
   password: {
     type: String,
-    required: true,
+    //required: true
   },
   direccion: {
-    calle: { type: String, required: true },
-    altura: { type: String, required: true },
-    cp: { type: String, required: true },
+    calle: {
+      type: String,
+      //required: true
+    },
+    altura: {
+      type: String,
+      //required: true
+    },
+    cp: {
+      type: String,
+      // required: true,
+    },
     piso: { type: String },
     departamento: { type: String },
   },
   admin: { type: Boolean, default: false },
+  fbId: { type: String },
 })
 
 UserSchema.pre('save', async function (next) {

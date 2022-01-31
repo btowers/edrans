@@ -19,6 +19,7 @@ export interface NewUserI {
   password: string
   confirmPassword: string
   admin: boolean
+  fbId: string
 }
 
 export interface UserBaseClass {
