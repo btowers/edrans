@@ -61,7 +61,7 @@
             <div class="column justify-between" style="height: 600px">
               <div class="col">
                 <q-input
-                  :disable="loadingBtn"
+                  :disable="loading"
                   v-model="productDetails.nombre"
                   name="nombre"
                   ref="nombreRef"
@@ -78,7 +78,7 @@
                   ]"
                 />
                 <q-input
-                  :disable="loadingBtn"
+                  :disable="loading"
                   class="my-input"
                   v-model="productDetails.precio"
                   prefix="$"
@@ -96,7 +96,7 @@
                 />
 
                 <q-input
-                  :disable="loadingBtn"
+                  :disable="loading"
                   class="my-input"
                   v-model="productDetails.stock"
                   suffix="un."
@@ -112,7 +112,7 @@
                   ]"
                 />
                 <q-input
-                  :disable="loadingBtn"
+                  :disable="loading"
                   v-model="productDetails.categoria"
                   type="categoria"
                   name="categoria"
@@ -121,7 +121,7 @@
                   :rules="[(val) => !!val || 'Campo requerido']"
                 />
                 <q-input
-                  :disable="loadingBtn"
+                  :disable="loading"
                   v-model="productDetails.descripcion"
                   type="textarea"
                   name="descripcion"
@@ -142,7 +142,7 @@
                 <div class="row justify-end q-gutter-sm">
                   <div>
                     <q-btn
-                      :disable="loadingBtn"
+                      :disable="loading"
                       flat
                       color="primary"
                       @click="this.$router.push('/')"
@@ -152,8 +152,8 @@
                   </div>
                   <div>
                     <q-btn
-                      :disable="loadingBtn"
-                      :loading="loadingBtn"
+                      :disable="loading"
+                      :loading="loading"
                       color="primary"
                       label="Guardar"
                       @click="createProduct"
@@ -179,7 +179,6 @@ export default {
   data() {
     return {
       counter: 0,
-      loadingBtn: false,
       loading: false,
       slide: 1,
       qty: 1,
@@ -200,7 +199,7 @@ export default {
       if (this.isInvalidForm()) {
         return;
       }
-      this.loadingBtn = true;
+      this.loading = true;
       const newProduct = {
         nombre: this.productDetails.nombre,
         descripcion: this.productDetails.descripcion,
@@ -220,20 +219,10 @@ export default {
       })
         .then((response) => {
           this.productDetails = response.data.data;
-          if (this.counter > 0) {
-            this.$refs.uploader.upload();
-          } else {
-            this.$q.notify({
-              position: "bottom-right",
-              color: "positive",
-              message: "Producto creado con éxito",
-            });
-            this.loadingBtn = false;
-            this.$router.push("/");
-          }
+          this.$refs.uploader.upload();
         })
         .catch((error) => {
-          this.loadingBtn = false;
+          this.loading = false;
           this.$q.notify({
             position: "bottom-right",
             color: "negative",
@@ -243,9 +232,9 @@ export default {
     },
 
     goHome() {
-      counter--;
-      if (counter == 0) {
-        this.loadingBtn = false;
+      this.counter--;
+      if (this.counter == 0) {
+        this.loading = false;
         this.$router.push("/");
         this.$q.notify({
           position: "bottom-right",
@@ -273,6 +262,7 @@ export default {
     },
 
     factoryFn(file) {
+      this.counter++;
       const re = /(?:\.([^.]+))?$/;
       const type = re.exec(file[0].name)[1];
       return new Promise((resolve, reject) => {

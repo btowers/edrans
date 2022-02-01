@@ -9,23 +9,27 @@ const numCPUs = os.cpus().length
 dotenv.config()
 
 if (cluster.isMaster && config.MODE === 'cluster') {
-    loggerS.info(`NUMERO DE CPUS ===> ${numCPUs}`)
-    loggerS.info(`PID MASTER ${process.pid}`)
+  loggerS.info(`NUMERO DE CPUS ===> ${numCPUs}`)
+  loggerS.info(`PID MASTER ${process.pid}`)
 
-    for (let i = 0; i < numCPUs; i++) {
-        cluster.fork()
-    }
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork()
+  }
 
-    cluster.on('exit', (worker) => {
-        loggerS.warn(`Worker ${worker.process.pid} died at ${Date()}`)
-        cluster.fork()
-    })
+  cluster.on('exit', (worker) => {
+    loggerS.warn(`Worker ${worker.process.pid} died at ${Date()}`)
+    cluster.fork()
+  })
 } else {
-    server.listen(config.PORT, () => {
-        loggerS.info(`Server: Running on port ${config.PORT}`)
-    })
+  server.listen(config.PORT, () => {
+    loggerS.info(`Server: Running on port ${config.PORT}`)
+  })
 
-    server.on('error', (error) => {
-        loggerS.error(`Server: ${error}`)
-    })
+  server.on('error', (error) => {
+    loggerS.error(`Server: ${error}`)
+  })
+
+  process.on('uncaughtException', (error) => {
+    loggerS.error(`Server Exception: ${error}`)
+  })
 }

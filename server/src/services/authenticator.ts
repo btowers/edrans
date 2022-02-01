@@ -1,13 +1,13 @@
 import { Request } from 'express'
 import { NewUserI } from '../interfaces/userInterface'
-import config from '../config'
-import passport from 'passport'
 import { Strategy as LocalStrategy, IStrategyOptionsWithRequest } from 'passport-local'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { cartS } from '../api/cartService'
 import { userS } from '../api/userService'
 import { UserJoiSchema, UserCredentialsJoiSchema } from '../interfaces/userInterface'
+import config from '../config'
+import passport from 'passport'
 
 const localStrategyOptions: IStrategyOptionsWithRequest = {
   usernameField: 'email',

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-enum Presistence {
+export enum Presistence {
   Memory = 1,
   FileSystem,
   MySQLLocal,
@@ -10,12 +9,8 @@ enum Presistence {
   Firebase,
 }
 
-enum ErrorCode {
-  CartNotFound = 'Cart not found',
-  ProductsNotFound = 'Product not found',
-  ImageNotFound = 'Image not found',
-  UserNotFound = 'User not found',
-  OrderNotFound = 'Order Not Found',
+export enum ErrorCode {
+  NotFound = 'Not found',
   MongoNotConnected = 'Could not connect to MongoDB',
   Unauthorized = 'Unauthorized User',
   BadRequest = 'Bad Request',
@@ -24,6 +19,8 @@ enum ErrorCode {
   NotEnoughStock = 'Not enough stock',
   CartEmpty = 'Cart is empty',
   InvalidPassword = 'Password must be at least 8 characters long and contain at least one number, one uppercase letter and one special character',
+  UserValidation = 'User validation error',
+  UserNotExists = 'User not exists',
+  UserAlreadyExists = 'User already exists',
+  ProductValidation = 'Product validation error',
 }
-
-export { Presistence, ErrorCode };

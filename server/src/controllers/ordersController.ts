@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { orderS } from '../api/orderService'
-// import { mailerS } from '../services/mailer';
-import { ErrorCode } from '../utils/enums'
-import 'express-async-errors'
 import { OrderIdJoiSchema } from '../interfaces/orderInterface'
+import { NotFound } from '../errors/errors'
+import 'express-async-errors'
 
 class OrderController {
   async getOrders(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -17,8 +16,7 @@ class OrderController {
     const { id } = req.body
     await OrderIdJoiSchema.validateAsync(id)
     const result = await orderS.completeOrder(id)
-    if (!result) throw new Error(ErrorCode.BadRequest)
-    // await mailerS.send(result);
+    if (!result) throw new NotFound(404, 'Order not found')
     res.status(200).json({ data: result })
   }
 }

@@ -11,8 +11,8 @@ import {
   ProductQueryJoiSchema,
 } from '../interfaces/productInterface'
 import { productS } from '../api/productService'
-import { ErrorCode } from '../utils/enums'
 import 'express-async-errors'
+import { MissingFieldsProduct, NotFound } from '../errors/errors'
 
 class ProductsController {
   createProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -26,7 +26,7 @@ class ProductsController {
     const { id } = req.params
     if (Object.keys(id).length != 0) await ProductIdJoiSchema.validateAsync(id)
     const product = await productS.getProduct(id)
-    if (!product) throw new Error(ErrorCode.ProductsNotFound)
+    if (!product) throw new NotFound(404, 'Product not found')
     res.status(200).json({ data: product })
   }
 
@@ -40,11 +40,12 @@ class ProductsController {
   updateProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { id } = req.params
     const productFields = req.body as UpdateProductI
-    if (Object.keys(productFields).length == 0) throw new Error(ErrorCode.BadRequest)
+    if (Object.keys(productFields).length == 0)
+      throw new MissingFieldsProduct(400, 'Missing fields', 'No fields to update')
     await ProductIdJoiSchema.validateAsync(id)
     await ProductJoiSchema.validateAsync(productFields)
     const updatedProduct = await productS.updateProduct(id, productFields)
-    if (!updatedProduct) throw Error(ErrorCode.ProductsNotFound)
+    if (!updatedProduct) throw new NotFound(404, 'Product not found')
     res.status(200).json({ data: updatedProduct })
   }
 

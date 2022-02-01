@@ -61,9 +61,6 @@ export class Product implements ProductBaseClass {
 
   async getProducts(options: ProductQuery = {}): Promise<ProductI[]> {
     const query: FilterQuery<ProductI> = {}
-
-    // isQueryValid(options);
-
     if (options.nombre) query.nombre = options.nombre
 
     if (options.minPrice && options.maxPrice) {

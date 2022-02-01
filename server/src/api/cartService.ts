@@ -5,6 +5,7 @@ import { ErrorCode } from '../utils/enums'
 import { productS } from './productService'
 import config from '../config'
 import { ProductQuery } from '../interfaces/productInterface'
+import { NotFound } from '../errors/errors'
 
 class CartService {
   private carts
@@ -36,7 +37,7 @@ class CartService {
   async deleteProductFromCart(cartId: string, cartItem: CartItemI): Promise<void> {
     const query = { id: cartItem.product }
     const result = await productS.getProducts(query)
-    if (result.length < 1) throw new Error(ErrorCode.BadRequest)
+    if (result.length < 1) throw new NotFound(404, 'Product not found')
     return this.carts.deleteProductFromCart(cartId, cartItem)
   }
 

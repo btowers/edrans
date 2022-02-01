@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 import { Router } from 'express'
-import { ErrorsM } from '../middleware/errors'
+import { errorHandler } from '../middleware/errors'
 import productsRouter from './productsRouter'
 import ordersRouter from './ordersRouter'
 import cartRouter from './cartRouter'
@@ -16,6 +16,6 @@ router.use('/orders', ordersRouter)
 router.use('/cart', cartRouter)
 router.use('/image', imageRouter)
 
-router.use(ErrorsM.errors)
+router.use(errorHandler)
 
 export default router

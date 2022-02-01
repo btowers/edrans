@@ -1,5 +1,4 @@
 import { Router } from 'express'
-// import { imageM } from '../middleware/image'
 import { imageC } from '../controllers/imageController'
 import { userC } from '../controllers/userController'
 
