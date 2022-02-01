@@ -173,8 +173,7 @@ export default {
           descripcion: {
             type: 'string',
             description: 'Product description',
-            example:
-              'Ac nulla fringilla, suscipit justo in, facilisis velit. Vivamus ac tempus ligula. Donec facilisis augue quis felis vestibulum, vitae semper est egestas.',
+            example: 'Camiseta de River Plate',
           },
           categoria: {
             type: 'string',
@@ -241,7 +240,7 @@ export default {
             type: 'object',
             description: 'User id and email',
             properties: {
-              id: {
+              userId: {
                 $ref: '#/components/schemas/UserId',
               },
               email: {
@@ -251,7 +250,7 @@ export default {
               },
             },
           },
-          products: {
+          items: {
             $ref: '#/components/schemas/OrderItem',
           },
           total: {
@@ -259,34 +258,55 @@ export default {
             description: 'Total price of the order.',
             example: '1500',
           },
-          estado: {
+          status: {
             type: 'string',
             description:
               'Order status, can be "generada" for generated but not completed orders, or "completada" for completed orders.',
             example: 'generada',
           },
           direccionEntrega: {
-            type: 'string',
+            type: 'object',
             description: 'Delivery Address.',
-            example: 'Prueba 123, Piso 1, Depto. 121',
-          },
-          cp: {
-            type: 'string',
-            description: 'Postal code.',
-            example: '12345678',
-          },
-          timestamp: {
-            type: 'string',
-            description: 'Date and time when the order was created.',
-            example: '2021-12-01T00:02:43.013Z',
-          },
-          updatedAt: {
-            type: 'string',
-            description: 'Date and time when the order was last updated.',
-            example: '2021-12-01T00:02:43.013Z',
-          },
-          id: {
-            $ref: '#/components/schemas/OrderId',
+            properties: {
+              calle: {
+                type: 'string',
+                description: 'Delivery address street.',
+                example: 'Calle 123',
+              },
+              numero: {
+                type: 'string',
+                description: 'Delivery address number.',
+                example: '123',
+              },
+              cp: {
+                type: 'string',
+                description: 'Postal code.',
+                example: '12345678',
+              },
+              piso: {
+                type: 'string',
+                description: 'Delivery address floor.',
+                example: '1',
+              },
+              departamento: {
+                type: 'string',
+                description: 'Delivery address apartment.',
+                example: 'A',
+              },
+            },
+            createdAt: {
+              type: 'string',
+              description: 'Date and time when the order was created.',
+              example: '2021-12-01T00:02:43.013Z',
+            },
+            updatedAt: {
+              type: 'string',
+              description: 'Date and time when the order was last updated.',
+              example: '2021-12-01T00:02:43.013Z',
+            },
+            id: {
+              $ref: '#/components/schemas/OrderId',
+            },
           },
         },
       },
@@ -296,29 +316,8 @@ export default {
         properties: {
           error: {
             type: 'string',
-            description: 'Error internal code.',
-            example: '-4',
-          },
-          name: {
-            type: 'string',
-            description: 'Name of the error class.',
-            example: 'NotFound',
-          },
-          message: {
-            type: 'string',
-            description: 'Error message.',
-            example: 'Producto no encontrado',
-          },
-          stack: {
-            type: 'string',
-            description: 'Error stack trace',
-            example:
-              'NotFound: Producto no encontrado\n    at new BaseError (/home/alizardo/Projects/coderhouse-ecommerce/back/src/errors/index.ts:13:11)\n    at new NotFound (/home/alizardo/Projects/coderhouse-ecommerce/back/src/errors/index.ts:36:5)\n    at ProductosModelMongoDb.<anonymous> (/home/alizardo/Projects/coderhouse-ecommerce/back/src/models/mongoDb/producto.ts:83:15)\n    at Generator.throw (<anonymous>)\n    at rejected (/home/alizardo/Projects/coderhouse-ecommerce/back/src/models/mongoDb/producto.ts:6:65)\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)',
-          },
-          descripcion: {
-            type: 'string',
-            description: 'Error description, can be present or not.',
-            example: 'Faltan los siguientes campos: nombre',
+            description: 'Error description',
+            example: 'Product not found',
           },
         },
       },

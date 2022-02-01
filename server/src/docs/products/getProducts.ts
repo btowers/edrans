@@ -11,16 +11,7 @@ export default {
           type: 'string',
         },
         description: 'A product name.',
-        example: 'Shiratamako - Rice Flour',
-      },
-      {
-        name: 'codigo',
-        in: 'query',
-        schema: {
-          type: 'string',
-        },
-        description: 'A product code.',
-        example: 'ECOM-2856-2940',
+        example: 'Medias de Racing',
       },
       {
         name: 'minPrice',
@@ -96,4 +87,4 @@ export default {
       },
     },
   },
-};
+}

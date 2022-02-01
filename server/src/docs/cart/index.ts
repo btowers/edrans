@@ -1,19 +1,19 @@
-import deleteCartItem from './deleteCartItem'
-import getCartItem from './getCartItem'
-import buyCartItem from './buyCartItem'
-import updateCartItem from './updateCartItem'
+import deleteProductFromCart from './deleteProductFromCart'
+import getCart from './getCart'
+import buyCart from './buyCart'
+import addProductToCart from './addProductToCart'
 
 export default {
-  '/cart/': {
-    ...getCartItem,
+  '/cart': {
+    ...getCart,
   },
   '/cart/add': {
-    ...updateCartItem,
+    ...addProductToCart,
   },
   '/cart/delete': {
-    ...deleteCartItem,
+    ...deleteProductFromCart,
   },
   '/cart/submit': {
-    ...buyCartItem,
+    ...buyCart,
   },
 }

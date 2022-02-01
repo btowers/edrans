@@ -3,17 +3,6 @@ export default {
     tags: ['Cart'],
     description: 'Get a list of all products in the cart.',
     operationId: 'getCartItem',
-    parameters: [
-      {
-        name: 'id',
-        in: 'path',
-        schema: {
-          $ref: '#/components/schemas/ProductId',
-        },
-        required: true,
-        description: 'A single product id',
-      },
-    ],
     responses: {
       200: {
         description: 'Product in the cart was obtained',

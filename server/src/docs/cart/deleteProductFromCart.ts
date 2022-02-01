@@ -1,8 +1,8 @@
 export default {
-  put: {
+  delete: {
     tags: ['Cart'],
-    description: 'Update a product quantity in the cart.',
-    operationId: 'updateCartItem',
+    description: 'Delete a product from the cart.',
+    operationId: 'deleteCartItem',
     parameters: [],
     requestBody: {
       required: true,
@@ -10,14 +10,14 @@ export default {
         'application/json': {
           schema: {
             type: 'object',
-            description: 'Information of a product to edit in the cart.',
+            description: 'Information of a product to delete from the cart.',
             properties: {
               productId: {
                 $ref: '#/components/schemas/ProductId',
               },
-              amount: {
+              qty: {
                 type: 'number',
-                description: 'New desired amount of product to add to cart',
+                description: 'Amount of this product to delete from the cart.',
                 example: '5',
               },
             },
@@ -27,7 +27,7 @@ export default {
     },
     responses: {
       200: {
-        description: 'Product amount in cart was updated.',
+        description: 'Product was removed successfully from the cart.',
         content: {
           'application/json': {
             schema: {
@@ -42,7 +42,7 @@ export default {
       },
       404: {
         description:
-          "The cart does not exists (there's no cart associated to the user), the product you want to edit is not in the cart, or the productId or amount are not valid.",
+          "The cart does not exists (there's no cart associated to the user) or the product you want to delete is not in the cart.",
         content: {
           'application/json': {
             schema: {

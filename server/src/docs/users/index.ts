@@ -7,7 +7,7 @@ export default {
   '/user': {
     ...getUser,
   },
-  '/user/{id}': {
+  '/user/': {
     ...updateUser,
   },
   '/user/signup': {
