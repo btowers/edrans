@@ -1,0 +1,36 @@
+// Always show scrollbar
+body {
+  overflow-y: scroll;
+}
+
+// Product
+.product-card {
+  max-height: 500px;
+  max-width: 300px;
+  background-color: #fafafa;
+}
+.product-card:hover {
+  box-shadow: 0px 0px 15px 0px grey;
+}
+
+// Card base
+.base-width {
+  width: 100%;
+  max-width: 1068px;
+}
+
+// Auth cards
+.login {
+  width: 100%;
+  max-width: 400px;
+}
+
+.register {
+  width: 100%;
+  max-width: 800px;
+}
+
+.productDetail {
+  width: 100%;
+  max-width: 800px;
+}

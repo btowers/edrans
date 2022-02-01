@@ -35,6 +35,11 @@ export interface UpdateUserI {
   confirmPassword?: string
 }
 
+export interface UserJWTPayloadI {
+  id: string
+  admin: boolean
+}
+
 export interface UserBaseClass {
   create(user: NewUserI): Promise<UserI>
   getById(id: string): Promise<UserI>

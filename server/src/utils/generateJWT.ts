@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken'
 import config from '../config'
-import { UserI } from '../interfaces/userInterface'
-import { ErrorCode } from './enums'
+import { UserJWTPayloadI } from '../interfaces/userInterface'
 
-export const generateJWT = (user: UserI) => {
+export const generateJWT = (user: UserJWTPayloadI) => {
   const payload = {
     sub: user.id,
     admin: user.admin,
