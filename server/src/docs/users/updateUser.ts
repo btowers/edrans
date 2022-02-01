@@ -3,17 +3,6 @@ export default {
     tags: ['User'],
     description: 'Update an specific user. Only available for logged in user',
     operationId: 'updateUser',
-    parameters: [
-      {
-        name: 'id',
-        in: 'path',
-        schema: {
-          $ref: '#/components/schemas/UserId',
-        },
-        required: true,
-        description: 'A single product id',
-      },
-    ],
     responses: {
       200: {
         description: 'User was updated.',

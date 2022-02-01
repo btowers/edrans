@@ -13,6 +13,6 @@ router.get('/facebook/redirect', userC.facebookLogin)
 // Protected Routes
 router.use(userC.isAuth)
 router.get('/', userC.getUser)
-router.put('/:id', userC.updateUser)
+router.put('/', userC.updateUser)
 
 export default router

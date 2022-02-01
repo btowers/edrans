@@ -205,7 +205,7 @@ export default {
       this.loading = true;
       this.$axios({
         method: "PUT",
-        url: "/api/user/" + this.user.id,
+        url: "/api/user",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

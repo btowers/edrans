@@ -19,10 +19,9 @@ class UserController {
   }
 
   async updateUser(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params
+    const { id } = req.user as UserI
     const userFields = req.body as UpdateUserI
     if (Object.keys(userFields).length == 0) throw new Error('missing fields to update')
-    await UserIdJoiSchema.validateAsync(id)
     await UserUpdateJoiSchema.validateAsync(userFields)
     const updatedUser = await userS.updateUser(id, userFields)
     if (!updatedUser) throw new Error('user not found')
