@@ -4,6 +4,7 @@
     v-model="leftDrawer"
     show-if-above
     bordered
+    overlay
     class="bg-white"
     :width="280"
   >
