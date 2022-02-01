@@ -2,7 +2,6 @@ import config from '../config'
 import { CartI } from '../interfaces/cartInterface'
 import { OrderI } from '../interfaces/orderInterface'
 import { OrderFactoryDAO } from '../models/order/orderFactory'
-import { NotFound } from '../errors/errors'
 
 class OrderService {
   private order
@@ -25,7 +24,7 @@ class OrderService {
 
   async deleteOrder(id: string): Promise<OrderI> {
     const deletedOrder = await this.order.deleteOrder(id)
-    if (!deletedOrder) throw new NotFound(404, 'Order not found')
+    if (!deletedOrder) throw new Error('Order not found')
     return deletedOrder
   }
 }

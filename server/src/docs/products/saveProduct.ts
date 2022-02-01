@@ -9,7 +9,7 @@ export default {
       content: {
         'multipart/form-data': {
           schema: {
-            $ref: '#/components/schemas/ProductInputAdd',
+            $ref: '#/components/schemas/NewProduct',
           },
         },
       },
@@ -26,8 +26,7 @@ export default {
         },
       },
       400: {
-        description:
-          'One or more of the product properties do not meet the proper conditions.',
+        description: 'One or more of the product properties do not meet the proper conditions.',
         content: {
           'application/json': {
             schema: {
@@ -48,4 +47,4 @@ export default {
       },
     },
   },
-};
+}

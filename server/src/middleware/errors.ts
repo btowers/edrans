@@ -1,28 +1,40 @@
+import { Request, Response, NextFunction } from 'express'
 import { loggerS } from '../services/logger'
-import { ErrorRequestHandler } from 'express'
-import config from '../config'
+import { ErrorCode } from '../utils/enums'
 
-interface IErrorInfo {
-  error: string
-  name: string
-  message: string
-  descripcion?: string
-  stack: string
+/**
+ * @class Errors
+ */
+class ErrorsMiddleware {
+  /**
+   * @description Log error
+   * @param {Error} err
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
+  errors(err: Error, req: Request, res: Response, next: NextFunction) {
+    loggerS.error(err.message)
+    if (err.message == ErrorCode.ProductNotFound) {
+      res.status(404).json({ error: err.message })
+    } else if (err.message == ErrorCode.InvalidCredentials) {
+      res.status(401).json({ error: err.message })
+    } else if (err.message == ErrorCode.MissingFieldsToUpdate) {
+      res.status(401).json({ error: err.message })
+    } else if (err.message == ErrorCode.MissingCredentials) {
+      res.status(401).json({ error: err.message })
+    } else if (err.message == ErrorCode.MissingToken) {
+      res.status(401).json({ error: err.message })
+    } else if (err.message == ErrorCode.Unauthorized) {
+      res.status(401).json({ error: err.message })
+    } else if (err.message == ErrorCode.NotAuthenticated) {
+      res.status(401).json({ error: err.message })
+    } else if (err.message == ErrorCode.AlreadyAuthenticated) {
+      res.status(400).json({ error: err.message })
+    } else if (err.message == ErrorCode.BadRequest) {
+      res.status(400).json({ error: err.message })
+    } else res.status(400).json({ error: err.message })
+  }
 }
 
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  const { statusCode, name, message, error, stack, descripcion } = err
-  const errorInfo: IErrorInfo = {
-    error,
-    name,
-    message,
-    stack,
-  }
-  if (descripcion) {
-    errorInfo.descripcion = descripcion
-  }
-  if (config.NODE_ENV !== 'test')
-    loggerS.error(`Error: ${error}, Message: ${message}, Stack: ${stack} `)
-
-  res.status(statusCode || 500).json(errorInfo)
-}
+export const ErrorsM = new ErrorsMiddleware()

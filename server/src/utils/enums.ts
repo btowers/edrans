@@ -10,7 +10,12 @@ export enum Presistence {
 }
 
 export enum ErrorCode {
-  NotFound = 'Not found',
+  InvalidCredentials = 'usuario/contraseña incorrectos',
+  ProductNotFound = 'product not found',
+  OrderNotFound = 'order not found',
+  MissingFieldsToUpdate = 'missing fields to update',
+  MissingCredentials = 'missing credentials',
+  MissingToken = 'missing token',
   MongoNotConnected = 'Could not connect to MongoDB',
   Unauthorized = 'Unauthorized User',
   BadRequest = 'Bad Request',

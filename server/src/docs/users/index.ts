@@ -1,10 +1,14 @@
 import getUser from './getUser'
+import updateUser from './updateUser'
 import signup from './signup'
 import login from './login'
 
 export default {
-  '/user/{id}': {
+  '/user': {
     ...getUser,
+  },
+  '/user/{id}': {
+    ...updateUser,
   },
   '/user/signup': {
     ...signup,

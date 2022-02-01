@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="flex justify-center">
+  <q-page padding class="column items-center">
     <div class="productList">
       <q-table
         grid
@@ -26,6 +26,7 @@
 
 <script>
 import ProductCard from "src/components/ProductCard.vue";
+
 import { mapState } from "vuex";
 
 export default {

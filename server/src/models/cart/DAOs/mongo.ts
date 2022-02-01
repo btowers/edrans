@@ -1,10 +1,9 @@
 import mongoose, { Schema } from 'mongoose'
 import config from '../../../config'
-import { ErrorCode, Presistence } from '../../../utils/enums'
+import { Presistence } from '../../../utils/enums'
 import { productS } from '../../../api/productService'
 import { UserI } from '../../../interfaces/userInterface'
 import { CartBaseClass, CartI, CartItemI } from '../../../interfaces/cartInterface'
-import { NotFound, ProductValidation } from '../../../errors/errors'
 
 const CartSchema = new Schema<CartI>(
   {
@@ -84,7 +83,7 @@ export class Cart implements CartBaseClass {
 
   async addProductToCart(userId: string, product: CartItemI): Promise<any> {
     const cart = await this.CartModel.findOne({ userId: userId })
-    if (!cart) throw new NotFound(404, 'Cart not found')
+    if (!cart) throw new Error('Cart not found')
     const index = cart.products.findIndex((aProduct: any) => aProduct.product == product.product)
     if (index < 0) cart.products.push(product)
     else cart.products[index].qty += product.qty
@@ -94,11 +93,10 @@ export class Cart implements CartBaseClass {
 
   async deleteProductFromCart(userId: string, product: CartItemI): Promise<any> {
     const cart = await this.CartModel.findOne({ userId: userId })
-    if (!cart) throw new NotFound(404, 'Cart not found')
+    if (!cart) throw new Error('Cart not found')
     const index = cart.products.findIndex((aProduct: any) => aProduct.product == product.product)
-    if (index < 0) throw new NotFound(404, 'Product not found in cart')
-    if (cart.products[index].qty < product.qty)
-      throw new ProductValidation(400, 'Product not enough')
+    if (index < 0) throw new Error('Product not found in cart')
+    if (cart.products[index].qty < product.qty) throw new Error('Product not enough')
     else if (cart.products[index].qty == product.qty) cart.products.splice(index, 1)
     else cart.products[index].qty -= product.qty
     await productS.updateStockProduct(product.product.toString(), product.qty)

@@ -2,7 +2,7 @@ export default {
   put: {
     tags: ['Cart'],
     description: 'Update a product quantity in the cart.',
-    operationId: 'updateProductCart',
+    operationId: 'updateCartItem',
     parameters: [],
     requestBody: {
       required: true,
@@ -34,7 +34,7 @@ export default {
               type: 'array',
               description: 'Array of products in cart.',
               items: {
-                $ref: '#/components/schemas/ProductCart',
+                $ref: '#/components/schemas/CartItem',
               },
             },
           },
@@ -63,4 +63,4 @@ export default {
       },
     },
   },
-};
+}

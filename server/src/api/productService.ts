@@ -3,7 +3,6 @@ import { S3 } from '../services/S3'
 import { ErrorCode } from '../utils/enums'
 import { ProductFactoryDAO } from '../models/product/productFactory'
 import { NewProductI, UpdateProductI, ProductI, ProductQuery } from '../interfaces/productInterface'
-import { NotFound } from '../errors/errors'
 
 class ProductService {
   private product
@@ -30,13 +29,13 @@ class ProductService {
 
   async updateStockProduct(productId: string, qty: number): Promise<ProductI> {
     const updatedProduct = await this.product.updateStockProduct(productId, qty)
-    if (!updatedProduct) throw new NotFound(404, 'Product not found')
+    if (!updatedProduct) throw new Error('Product not found')
     return updatedProduct
   }
 
   async updateImagesProduct(productId: string, filename: string): Promise<ProductI> {
     const updatedProduct = await this.product.updateImagesProduct(productId, filename)
-    if (!updatedProduct) throw new NotFound(404, 'Product not found')
+    if (!updatedProduct) throw new Error('Product not found')
     return updatedProduct
   }
 
@@ -46,7 +45,7 @@ class ProductService {
 
   async deleteProduct(id: string): Promise<ProductI> {
     const product = await this.product.getProduct(id)
-    if (!product) throw new NotFound(404, 'Product not found')
+    if (!product) throw new Error('Product not found')
     if (product.fotos.length) await S3.deleteImages(product.fotos) // delete images from S3 before delete product
     return this.product.delete(id)
   }

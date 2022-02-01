@@ -2,32 +2,25 @@ export default {
   get: {
     tags: ['Cart'],
     description: 'Get a list of all products in the cart.',
-    operationId: 'getProductCart',
-    parameters: [
-      {
-        name: 'id',
-        in: 'path',
-        schema: {
-          $ref: '#/components/schemas/ProductId',
-        },
-        required: true,
-        description: 'A single product id',
-      },
-    ],
+    operationId: 'getProductsCart',
+    parameters: [],
     responses: {
       200: {
-        description: 'Product in the cart was obtained',
+        description: 'Products in the cart were obtained',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/ProductCart',
+              type: 'array',
+              description: 'Array of products in cart.',
+              items: {
+                $ref: '#/components/schemas/CartItem',
+              },
             },
           },
         },
       },
       404: {
-        description:
-          "The cart does not exists (there's no cart associated to the user) or the product is not in the cart.",
+        description: "The cart does not exists (there's no cart associated to the user)",
         content: {
           'application/json': {
             schema: {
@@ -48,4 +41,4 @@ export default {
       },
     },
   },
-};
+}

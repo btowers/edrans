@@ -2,7 +2,7 @@ export default {
   post: {
     tags: ['Cart'],
     description: 'Add a product to the cart.',
-    operationId: 'saveProductCart',
+    operationId: 'saveCartItem',
     parameters: [
       {
         name: 'id',
@@ -23,7 +23,7 @@ export default {
               type: 'array',
               description: 'Array of products in cart.',
               items: {
-                $ref: '#/components/schemas/ProductCart',
+                $ref: '#/components/schemas/CartItem',
               },
             },
           },
@@ -51,4 +51,4 @@ export default {
       },
     },
   },
-};
+}

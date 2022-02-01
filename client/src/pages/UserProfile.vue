@@ -1,5 +1,6 @@
 <template>
-  <q-page padding class="flex justify-center">
+  <q-page padding class="column items-center">
+    <back-button />
     <div class="base-width">
       <page-title title="Editar Perfil" />
       <q-card class="q-pa-md">
@@ -150,10 +151,13 @@
 
 <script>
 import PageTitle from "../components/PageTitle.vue";
+import BackButton from "../components/BackButton.vue";
+
 export default {
   name: "RegisterPage",
   components: {
     PageTitle,
+    BackButton,
   },
   data() {
     return {

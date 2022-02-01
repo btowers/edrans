@@ -33,7 +33,7 @@ export default {
           nombre: {
             type: 'string',
             description: 'User name.',
-            example: 'Jose Perez',
+            example: 'Jon Doe',
           },
           direccion: {
             type: 'object',
@@ -42,7 +42,7 @@ export default {
               calle: {
                 type: 'string',
                 description: 'User address street.',
-                example: 'Providencia',
+                example: 'San Martin',
               },
               altura: {
                 type: 'string',
@@ -78,63 +78,7 @@ export default {
           },
         },
       },
-      UserData: {
-        type: 'object',
-        description: 'Logged in user data.',
-        properties: {
-          email: {
-            type: 'string',
-            description: 'User email.',
-            example: 'test1@example.com',
-          },
-          nombre: {
-            type: 'string',
-            description: 'User name.',
-            example: 'John Doe',
-          },
-          direccion: {
-            type: 'object',
-            description: 'User address.',
-            properties: {
-              calle: {
-                type: 'string',
-                description: 'User address street.',
-                example: 'San Martin',
-              },
-              altura: {
-                type: 'string',
-                description: 'User address street number.',
-                example: '1234',
-              },
-              piso: {
-                type: 'string',
-                description: 'User address floor number, optional.',
-                example: '1',
-              },
-              departamento: {
-                type: 'string',
-                description: 'User address department number, optional.',
-                example: 'A',
-              },
-              cp: {
-                type: 'string',
-                description: 'User postal code.',
-                example: '1842',
-              },
-            },
-          },
-          identificador: {
-            type: 'string',
-            description: 'ID of the user.',
-            example: '30403489',
-          },
-          admin: {
-            type: 'boolean',
-            description: 'Determines if an user is admin or not.',
-            example: false,
-          },
-        },
-      },
+
       Product: {
         type: 'object',
         description: 'A product.',
@@ -147,12 +91,12 @@ export default {
           nombre: {
             type: 'string',
             description: 'Product name',
-            example: 'Tahini Paste',
+            example: 'Camiseta de Boca',
           },
           descripcion: {
             type: 'string',
             description: 'Product description',
-            example: 'A delicious paste made with tahini, olive oil, garlic, salt and pepper.',
+            example: 'Camiseta suplente de Boca Juniors',
           },
           precio: {
             type: 'number',
@@ -162,7 +106,7 @@ export default {
           categoria: {
             type: 'string',
             description: 'Product category',
-            example: 'Home',
+            example: 'camisetas',
           },
           fotos: {
             type: 'array',
@@ -172,11 +116,6 @@ export default {
               example: 'mypicture.jpg',
             },
           },
-          timestamp: {
-            type: 'string',
-            description: 'Product time and date of creation',
-            example: '21/10/2021 11:54:40',
-          },
           stock: {
             type: 'number',
             description: 'Product stock',
@@ -184,20 +123,19 @@ export default {
           },
         },
       },
-      ProductInputAdd: {
+      NewProduct: {
         type: 'object',
         description: 'Product data when saving a new product.',
         properties: {
           nombre: {
             type: 'string',
             description: 'Product name',
-            example: 'Test Product',
+            example: 'Camiseta de Boca',
           },
           descripcion: {
             type: 'string',
             description: 'Product description',
-            example:
-              'Ac nulla fringilla, suscipit justo in, facilisis velit. Vivamus ac tempus ligula. Donec facilisis augue quis felis vestibulum, vitae semper est egestas.',
+            example: 'Camiseta suplente de Boca Juniors, con el logo de Boca Juniors',
           },
           precio: {
             type: 'number',
@@ -214,7 +152,6 @@ export default {
             description: 'Product images.',
             items: {
               type: 'string',
-              format: 'binary',
             },
           },
           stock: {
@@ -224,9 +161,9 @@ export default {
           },
         },
       },
-      ProductInputEdit: {
+      UpdateProduct: {
         type: 'object',
-        description: 'Product data when editing a product.',
+        description: 'Product data when updating a product.',
         properties: {
           nombre: {
             type: 'string',
@@ -239,42 +176,20 @@ export default {
             example:
               'Ac nulla fringilla, suscipit justo in, facilisis velit. Vivamus ac tempus ligula. Donec facilisis augue quis felis vestibulum, vitae semper est egestas.',
           },
-          codigo: {
+          categoria: {
             type: 'string',
-            description: 'Product code',
-            example: 'ECOM-1234-1234',
+            description: 'Product category',
+            example: 'Games',
           },
           precio: {
             type: 'number',
             description: 'Product price',
             example: '123.4',
           },
-          categoria: {
-            type: 'string',
-            description: 'Product category',
-            example: 'Games',
-          },
           fotos: {
-            type: 'string',
-            description:
-              'Stringified array of product images urls. If you need to remove an existing image from the product, the image url needs to be removed from this stringified array.',
-            example:
-              '["https://res.cloudinary.com/alais29/image/upload/v1639511210/Products/hbi9dqnu5u3mq3qxsb6y.jpg"]',
-          },
-          fotosId: {
-            type: 'string',
-            description:
-              'Stringified array of product images ids. If you need to remove an existing image from the product, the image id needs to be removed from this stringified array',
-            example: '["Products/hbi9dqnu5u3mq3qxsb6y"]',
-          },
-          newFotos: {
             type: 'array',
-            description:
-              'New product images if added. If no image is added then don\'t send the field (Uncheck "Send empty value" option)',
-            items: {
-              type: 'string',
-              format: 'binary',
-            },
+            description: 'Product images.',
+            example: '["myproduct.jpg", "myproduct2.jpg", "myproduct3.jpg"]',
           },
           stock: {
             type: 'number',
@@ -283,11 +198,11 @@ export default {
           },
         },
       },
-      ProductCart: {
+      CartItem: {
         type: 'object',
         description: 'A product in the cart.',
         properties: {
-          producto: {
+          product: {
             $ref: '#/components/schemas/Product',
           },
           qty: {
@@ -297,37 +212,23 @@ export default {
           },
         },
       },
-      ProductOrder: {
+      OrderItem: {
         type: 'object',
         description: 'A product in an order.',
         properties: {
-          producto: {
-            type: 'object',
-            properties: {
-              nombre: {
-                type: 'string',
-                description: 'Product name',
-                example: 'Test Product',
-              },
-              descripcion: {
-                type: 'string',
-                description: 'Product description',
-                example:
-                  'Ac nulla fringilla, suscipit justo in, facilisis velit. Vivamus ac tempus ligula. Donec facilisis augue quis felis vestibulum, vitae semper est egestas.',
-              },
-              precio: {
-                type: 'number',
-                description: 'Product price',
-                example: '123.4',
-              },
-              id: {
-                $ref: '#/components/schemas/ProductId',
-              },
-            },
+          id: {
+            type: 'string',
+            description: 'Product id.',
+            example: '61c9cb67a145f288c70acd8d',
           },
-          quantity: {
+          precio: {
             type: 'number',
-            description: 'Amount of this product in the order.',
+            description: 'Product price.',
+            example: '100',
+          },
+          qty: {
+            type: 'number',
+            description: 'Product quantity ordered.',
             example: '1',
           },
         },
@@ -351,7 +252,7 @@ export default {
             },
           },
           products: {
-            $ref: '#/components/schemas/ProductOrder',
+            $ref: '#/components/schemas/OrderItem',
           },
           total: {
             type: 'number',

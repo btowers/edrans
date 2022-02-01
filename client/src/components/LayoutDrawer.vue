@@ -29,7 +29,7 @@
   </q-drawer>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 // This is a description of the component
 export default {
   name: "LayoutDrawer",
@@ -39,6 +39,7 @@ export default {
       default: () => [],
     },
   },
+
   computed: {
     ...mapState({
       leftDrawer: (state) => state.layout.leftDrawer,

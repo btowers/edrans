@@ -28,8 +28,4 @@ if (cluster.isMaster && config.MODE === 'cluster') {
   server.on('error', (error) => {
     loggerS.error(`Server: ${error}`)
   })
-
-  process.on('uncaughtException', (error) => {
-    loggerS.error(`Server Exception: ${error}`)
-  })
 }

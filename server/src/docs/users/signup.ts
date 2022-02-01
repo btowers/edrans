@@ -30,7 +30,7 @@ export default {
               nombre: {
                 type: 'string',
                 description: 'User name.',
-                example: 'Jose Perez',
+                example: 'Jon Doe',
               },
 
               direccion: {
@@ -39,7 +39,7 @@ export default {
                   calle: {
                     type: 'string',
                     description: 'User address street.',
-                    example: 'Providencia',
+                    example: 'San Martin',
                   },
                   altura: {
                     type: 'string',
