@@ -1,6 +1,7 @@
 /* eslint-disable no-invalid-this */
 import mongoose, { Schema } from 'mongoose'
 import config from '../../../config'
+import _ from 'lodash'
 import { Presistence } from '../../../utils/enums'
 
 import { NewUserI, UpdateUserI, UserBaseClass, UserI } from '../../../interfaces/userInterface'
@@ -8,37 +9,14 @@ import { NewUserI, UpdateUserI, UserBaseClass, UserI } from '../../../interfaces
 import bcrypt from 'bcryptjs'
 
 const UserSchema = new Schema<UserI>({
-  nombre: {
-    type: String,
-    // required: true,
-  },
-  identificador: {
-    type: String,
-    //required: true,
-    unique: true,
-  },
-  email: {
-    type: String,
-    //  required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    //required: true
-  },
+  nombre: { type: String },
+  identificador: { type: String, unique: true },
+  email: { type: String, unique: true },
+  password: { type: String },
   direccion: {
-    calle: {
-      type: String,
-      //required: true
-    },
-    altura: {
-      type: String,
-      //required: true
-    },
-    cp: {
-      type: String,
-      // required: true,
-    },
+    calle: { type: String },
+    altura: { type: String },
+    cp: { type: String },
     piso: { type: String },
     departamento: { type: String },
   },
@@ -88,12 +66,20 @@ export class User implements UserBaseClass {
     return this.UserModel.findById(id)
   }
 
-  async update(id: string, user: UpdateUserI): Promise<UserI> {
-    return this.UserModel.findByIdAndUpdate(
-      id,
-      { $set: user },
-      { new: true, returnNewDocument: true }
-    )
+  async update(id: string, userFields: UpdateUserI): Promise<UserI> {
+    return new Promise((resolve, reject) => {
+      this.UserModel.findById(id, function (err: any, user: any) {
+        if (err) {
+          console.log(err)
+        } else {
+          _.assign(user, userFields) // update user
+          user.save(function (err: any) {
+            if (err) reject(err)
+            return resolve(user)
+          })
+        }
+      })
+    })
   }
 
   async delete(id: string): Promise<UserI> {

@@ -83,7 +83,6 @@ const facebookLoginFunc = async (
   cb: any
 ): Promise<any> => {
   try {
-    console.log(profile.emails[0].value)
     const user = await userS.getUser(profile.emails[0].value)
     if (!user) {
       const newUser: NewUserI = {
@@ -104,7 +103,6 @@ const facebookLoginFunc = async (
       }
       const savedUser = await userS.createUser(newUser)
       await cartS.createCart(savedUser)
-      console.log(savedUser)
       return cb(null, savedUser)
     }
     return cb(null, user)

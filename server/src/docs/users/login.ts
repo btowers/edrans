@@ -34,12 +34,10 @@ export default {
             schema: {
               type: 'object',
               properties: {
-                message: {
+                token: {
                   type: 'string',
-                  example: 'Bienvenido!',
-                },
-                user: {
-                  $ref: '#/components/schemas/UserData',
+                  example:
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWY4MTg5YjU0ZjRkODRkMDdlNDZkZDIiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjQzNjY3MDgwLCJleHAiOjE2NDM3NTM0ODB9.F9BNM8__v6OHpZQgV5GrreQMsbrFZ7iD6rzsH-An_vM',
                 },
               },
             },

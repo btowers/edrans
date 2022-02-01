@@ -11,11 +11,11 @@ import {
   UserUpdateJoiSchema,
 } from '../interfaces/userInterface'
 import { userS } from '../api/userService'
+import { generateJWT } from '../utils/generateJWT'
 
 class UserController {
   async getUser(req: Request, res: Response, next: NextFunction) {
     const { id } = req.user as UserI
-    await UserIdJoiSchema.validateAsync(id)
     const user = await userS.getUserById(id)
     if (!user) throw Error(ErrorCode.UserNotFound)
     res.status(200).json({ data: user })
@@ -29,36 +29,21 @@ class UserController {
     await UserUpdateJoiSchema.validateAsync(userFields)
     const updatedUser = await userS.updateUser(id, userFields)
     if (!updatedUser) throw Error(ErrorCode.UserNotFound)
+    console.log(updatedUser)
     res.status(200).json({ data: updatedUser })
   }
 
   async login(req: Request, res: Response, next: NextFunction) {
-    passport.authenticate('login', { session: false }, function (err, user, info) {
+    passport.authenticate('login', { session: false }, async (err, user, info) => {
       if (err) {
         res.status(400).json({ error: err.message })
       } else {
-        let payload = null
         if (!user) {
           res.status(401).json({ error: info })
         } else {
-          payload = {
-            sub: user.id,
-            admin: user.admin,
-          }
-          jwt.sign(
-            payload,
-            config.JWT_SECRET_KEY,
-            {
-              expiresIn: config.TOKEN_KEEP_ALIVE,
-            },
-            function (err, token) {
-              if (err) {
-                throw Error(ErrorCode.BadRequest)
-              } else {
-                res.status(200).json({ token })
-              }
-            }
-          )
+          const token = await generateJWT(user)
+          if (!token) res.status(401).json({ error: 'Unauthorized: user not admin' })
+          else res.cookie('token', token).json({ token })
         }
       }
     })(req, res, next)
@@ -67,8 +52,7 @@ class UserController {
   async signup(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('signup', { session: false }, function (err, user, info) {
       if (err) {
-        console.log(err)
-        res.status(400).json({ error: err.message })
+        res.status(400).json({ err })
       } else {
         if (!user) {
           res.status(400).json({ error: info })
@@ -83,37 +67,21 @@ class UserController {
     passport.authenticate(
       'facebook',
       { session: false, scope: ['email'] },
-      function (err, user, info) {
-        console.log('AUTHENTICATEDDDD 0')
+      async function (err, user, info) {
         if (err) {
           res.status(400).json({ error: err.message })
         } else {
-          let payload = null
           if (!user) {
             res.status(400).json({ error: info })
           } else {
-            payload = {
-              sub: user.id,
-              admin: user.admin,
+            const token = await generateJWT(user)
+            if (!token) {
+              res.status(401).json({ error: 'Unauthorized: user not admin' })
+              console.log('error')
+            } else {
+              console.log('returning token')
+              res.cookie('token', token).redirect('/')
             }
-            console.log('AUTHENTICATEDDDD 1')
-            jwt.sign(
-              payload,
-              config.JWT_SECRET_KEY,
-              {
-                expiresIn: config.TOKEN_KEEP_ALIVE,
-              },
-              function (err, token) {
-                if (err) {
-                  throw Error(ErrorCode.BadRequest)
-                } else {
-                  console.log('AUTHENTICATEDDDD 2')
-                  console.log(token)
-                  res.cookie('token', token).redirect('/')
-                  // res.status(200).json({ token })
-                }
-              }
-            )
           }
         }
       }

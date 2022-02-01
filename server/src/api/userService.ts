@@ -25,10 +25,6 @@ class UserService {
     return this.user.update(id, user)
   }
 
-  async deleteUser(id: string): Promise<UserI> {
-    return this.user.delete(id)
-  }
-
   async isValidPassword(user: UserI, password: string): Promise<boolean> {
     return this.user.isValidPassword(user, password)
   }

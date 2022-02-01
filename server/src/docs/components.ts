@@ -199,11 +199,6 @@ export default {
             example:
               'Ac nulla fringilla, suscipit justo in, facilisis velit. Vivamus ac tempus ligula. Donec facilisis augue quis felis vestibulum, vitae semper est egestas.',
           },
-          codigo: {
-            type: 'string',
-            description: 'Product code',
-            example: 'ECOM-1234-1234',
-          },
           precio: {
             type: 'number',
             description: 'Product price',
@@ -391,36 +386,6 @@ export default {
           },
           id: {
             $ref: '#/components/schemas/OrderId',
-          },
-        },
-      },
-      Message: {
-        type: 'object',
-        description: 'A chat message.',
-        properties: {
-          user: {
-            $ref: '#/components/schemas/User',
-          },
-          text: {
-            type: 'string',
-            description: 'Text in the message.',
-            example: 'Hola',
-          },
-          type: {
-            type: 'string',
-            description:
-              'Indicates if the message was sent by the user ("usuario") or by the system ("sistema").',
-            example: 'sistema',
-          },
-          date: {
-            type: 'string',
-            description: 'Creation date of the message.',
-            example: '2021-11-29T18:44:55.533Z',
-          },
-          id: {
-            type: 'string',
-            description: 'Message id.',
-            example: '61a51fa72e460752431763bd',
           },
         },
       },
