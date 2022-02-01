@@ -1,5 +1,5 @@
 export default function () {
   return {
-    leftDrawer: true,
+    leftDrawer: false,
   };
 }
