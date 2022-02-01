@@ -8,12 +8,9 @@ const OrderSchema = new Schema<OrderI>(
   {
     userId: { type: Schema.Types.ObjectId },
     direccionEntrega: {
-      pais: { type: String },
-      provincia: { type: String },
-      ciudad: { type: String },
-      calle: { type: String, required: true },
-      altura: { type: String, required: true },
-      cp: { type: String, required: true },
+      calle: { type: String },
+      altura: { type: String },
+      cp: { type: String },
       piso: { type: String },
       departamento: { type: String },
     },
