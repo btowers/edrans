@@ -2,9 +2,7 @@
   <q-drawer
     v-if="isLoggedIn"
     v-model="leftDrawer"
-    show-if-above
     bordered
-    overlay
     class="bg-white"
     :width="280"
   >
@@ -45,6 +43,7 @@ export default {
     ...mapState({
       leftDrawer: (state) => state.layout.leftDrawer,
     }),
+
     isLoggedIn() {
       return this.$q.cookies.get("token") !== null;
     },
