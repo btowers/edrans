@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { cartS } from '../api/cartService'
 import { orderS } from '../api/orderService'
-import { mailerS } from '../services/mailer'
+// import { mailerS } from '../services/mailer'
 import { UserI } from '../interfaces/userInterface'
 import { CartItemI, CartItemJoiSchema } from '../interfaces/cartInterface'
 import 'express-async-errors'
@@ -20,7 +20,7 @@ class CartController {
     if (cart.products.length < 1) throw new Error('Cart is empty')
     const order = await orderS.createOrder(cart)
     await cartS.emptyCart(user.id)
-    await mailerS.send(user, cart)
+    //  await mailerS.send(user, cart)
     res.status(200).json({ data: order })
   }
 

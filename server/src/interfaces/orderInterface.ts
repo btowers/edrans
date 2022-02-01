@@ -5,10 +5,10 @@ import { CartI } from './cartInterface'
 
 export interface OrderI extends newOrderI {
   id: string
-  direccionEntrega: {
-    calle: string
-    altura: string
-    cp: string
+  direccionEntrega?: {
+    calle?: string
+    altura?: string
+    cp?: string
     piso?: string
     departamento?: string
   }
