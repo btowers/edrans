@@ -1,7 +1,7 @@
 <template>
   <div class="column productDetail">
     <div class="row">
-      <div class="col-6 q-pa-sm">
+      <div class="col-12 col-md-6 q-pa-sm">
         <q-carousel animated thumbnails v-model="slide" arrows infinite>
           <q-carousel-slide
             v-for="(slide, index) in productDetails.fotos"
@@ -11,7 +11,7 @@
           ></q-carousel-slide>
         </q-carousel>
       </div>
-      <div class="col-6 q-pa-sm column justify-between">
+      <div class="col-12 col-md-6 q-pa-sm column justify-between">
         <div>
           <div class="text-h4">{{ productDetails.nombre }}</div>
           <div class="text-h6">{{ formattedPrice }}</div>

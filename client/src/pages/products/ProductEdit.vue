@@ -4,51 +4,8 @@
     <div class="base-width">
       <page-title title="Editar Producto" />
       <q-card class="q-pa-md">
-        <q-card-section horizontal>
-          <q-card-section style="width: 100%">
-            <div class="column justify-between" style="height: 600px">
-              <div class="row justify-start q-gutter-md">
-                <div
-                  v-for="image in productDetails.fotos"
-                  :key="image"
-                  style="width: 150px"
-                >
-                  <q-img
-                    :src="
-                      'https://coderhouse-ecommerce.s3.amazonaws.com/' + image
-                    "
-                    style="height: 140px; max-width: 150px"
-                    fit="contain"
-                    no-native-menu
-                  >
-                    <q-btn
-                      class="absolute all-pointer-events"
-                      :style="{ top: '8', right: '8' }"
-                      icon="close"
-                      color="red"
-                      round
-                      @click="removeImage(image)"
-                    />
-                  </q-img>
-                </div>
-              </div>
-              <div class="col-auto" v-if="productDetails.fotos.length < 5">
-                <div class="row justify-end">
-                  <q-uploader
-                    label="Agregar imagen"
-                    no-thumbnails
-                    :factory="factoryFn"
-                    @uploaded="getProductDetails"
-                    style="width: 100%"
-                    accept=".jpg, image/*"
-                    :max-files="1"
-                  />
-                </div>
-              </div>
-            </div>
-          </q-card-section>
-          <q-separator vertical />
-          <q-card-section style="width: 100%">
+        <q-card-section :horizontal="$q.screen.gt.md">
+          <q-card-section clas="col" style="width: 100%">
             <div class="column justify-between" style="height: 600px">
               <div class="col">
                 <q-form ref="formRef">
@@ -121,6 +78,51 @@
               </div>
             </div>
           </q-card-section>
+
+          <q-separator vertical v-if="$q.screen.gt.md" />
+
+          <q-card-section clas="col" style="width: 100%">
+            <div class="column justify-between" style="height: 600px">
+              <div class="row justify-start q-gutter-md">
+                <div
+                  v-for="image in productDetails.fotos"
+                  :key="image"
+                  style="width: 150px"
+                >
+                  <q-img
+                    :src="
+                      'https://coderhouse-ecommerce.s3.amazonaws.com/' + image
+                    "
+                    style="height: 140px; max-width: 150px"
+                    fit="contain"
+                    no-native-menu
+                  >
+                    <q-btn
+                      class="absolute all-pointer-events"
+                      :style="{ top: '8', right: '8' }"
+                      icon="close"
+                      color="red"
+                      round
+                      @click="removeImage(image)"
+                    />
+                  </q-img>
+                </div>
+              </div>
+              <div class="col-auto" v-if="productDetails.fotos.length < 5">
+                <div class="row justify-end">
+                  <q-uploader
+                    label="Agregar imagen"
+                    no-thumbnails
+                    :factory="factoryFn"
+                    @uploaded="getProductDetails"
+                    style="width: 100%"
+                    accept=".jpg, image/*"
+                    :max-files="1"
+                  />
+                </div>
+              </div>
+            </div>
+          </q-card-section>
         </q-card-section>
       </q-card>
     </div>
@@ -154,6 +156,7 @@ export default {
   created() {
     this.getProductDetails();
   },
+
   methods: {
     getProductDetails() {
       this.loading = true;

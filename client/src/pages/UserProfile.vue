@@ -4,7 +4,7 @@
     <div class="base-width">
       <page-title title="Editar Perfil" />
       <q-card class="q-pa-md">
-        <q-card-section horizontal>
+        <q-card-section :horizontal="$q.screen.gt.md">
           <q-card-section style="width: 100%">
             <q-input
               v-model="user.nombre"
@@ -26,7 +26,7 @@
               label="DNI"
             />
           </q-card-section>
-          <q-separator vertical />
+          <q-separator vertical v-if="$q.screen.gt.md" />
           <q-card-section style="width: 100%">
             <q-form ref="formRef">
               <q-input
