@@ -8,7 +8,9 @@
           <q-card-section style="width: 100%">
             <div class="q-pa-md">
               <q-uploader
-                @uploaded="goHome"
+                @added="addFiles"
+                @removed="removeFiles"
+                @uploaded="uploadedFile"
                 :factory="factoryFn"
                 ref="uploader"
                 label="Seleccionar imagenes"
@@ -61,83 +63,85 @@
           <q-card-section style="width: 100%">
             <div class="column justify-between" style="height: 600px">
               <div class="col">
-                <q-input
-                  :disable="loading"
-                  v-model="productDetails.nombre"
-                  name="nombre"
-                  ref="nombreRef"
-                  label="Nombre"
-                  lazy-rules
-                  :rules="[
-                    (val) => !!val || 'Campo requerido',
-                    (val) =>
-                      val.length > 3 ||
-                      'El nombre debe tener al menos 4 caracteres',
-                    (val) =>
-                      val.length < 50 ||
-                      'El nombre debe tener menos de 50 caracteres',
-                  ]"
-                />
-                <q-input
-                  :disable="loading"
-                  class="my-input"
-                  v-model="productDetails.precio"
-                  prefix="$"
-                  type="precio"
-                  name="precio"
-                  ref="precioRef"
-                  label="Precio"
-                  lazy-rules
-                  :rules="[
-                    (val) => !!val || 'Campo requerido',
-                    (val) => val > 0 || 'El precio debe ser mayor a 0',
-                    (val) =>
-                      val < 1000000 || 'El precio debe ser menor a 1.000.000',
-                  ]"
-                />
+                <q-form @reset="formReset" ref="formRef">
+                  <q-input
+                    :readonly="loading"
+                    v-model="productDetails.nombre"
+                    name="nombre"
+                    ref="nombreRef"
+                    label="Nombre"
+                    lazy-rules
+                    :rules="[
+                      (val) => !!val || 'Campo requerido',
+                      (val) =>
+                        val.length > 3 ||
+                        'El nombre debe tener al menos 4 caracteres',
+                      (val) =>
+                        val.length < 50 ||
+                        'El nombre debe tener menos de 50 caracteres',
+                    ]"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    class="my-input"
+                    v-model="productDetails.precio"
+                    prefix="$"
+                    type="precio"
+                    name="precio"
+                    ref="precioRef"
+                    label="Precio"
+                    lazy-rules
+                    :rules="[
+                      (val) => !!val || 'Campo requerido',
+                      (val) => val > 0 || 'El precio debe ser mayor a 0',
+                      (val) =>
+                        val < 1000000 || 'El precio debe ser menor a 1.000.000',
+                    ]"
+                  />
 
-                <q-input
-                  :disable="loading"
-                  class="my-input"
-                  v-model="productDetails.stock"
-                  suffix="un."
-                  type="stock"
-                  name="stock"
-                  ref="stockRef"
-                  label="Stock"
-                  lazy-rules
-                  :rules="[
-                    (val) => !!val || 'Campo requerido',
-                    (val) => val > 0 || 'El stock debe ser mayor a 0',
-                    (val) => val < 1000 || 'El stock debe ser menor a 1.000',
-                  ]"
-                />
-                <q-input
-                  :disable="loading"
-                  v-model="productDetails.categoria"
-                  type="categoria"
-                  name="categoria"
-                  ref="categoriaRef"
-                  label="Categoría"
-                  :rules="[(val) => !!val || 'Campo requerido']"
-                />
-                <q-input
-                  :disable="loading"
-                  v-model="productDetails.descripcion"
-                  type="textarea"
-                  name="descripcion"
-                  ref="descripcionRef"
-                  label="Descripción"
-                  :rules="[
-                    (val) => !!val || 'Campo requerido',
-                    (val) =>
-                      val.length > 3 ||
-                      'La descripción debe tener más de 3 caracteres',
-                    (val) =>
-                      val.length < 500 ||
-                      'La descripción debe tener menos de 500 caracteres',
-                  ]"
-                />
+                  <q-input
+                    :readonly="loading"
+                    class="my-input"
+                    v-model="productDetails.stock"
+                    suffix="un."
+                    type="stock"
+                    name="stock"
+                    ref="stockRef"
+                    label="Stock"
+                    lazy-rules
+                    :rules="[
+                      (val) => !!val || 'Campo requerido',
+                      (val) => val > 0 || 'El stock debe ser mayor a 0',
+                      (val) => val < 1000 || 'El stock debe ser menor a 1.000',
+                    ]"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    v-model="productDetails.categoria"
+                    type="categoria"
+                    name="categoria"
+                    ref="categoriaRef"
+                    label="Categoría"
+                    :rules="[(val) => !!val || 'Campo requerido']"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    v-model="productDetails.descripcion"
+                    type="textarea"
+                    name="descripcion"
+                    ref="descripcionRef"
+                    label="Descripción"
+                    :rules="[
+                      (val) => !!val || 'Campo requerido',
+                      (val) =>
+                        val.length > 3 ||
+                        'La descripción debe tener más de 3 caracteres',
+                      (val) =>
+                        val.length < 500 ||
+                        'La descripción debe tener menos de 500 caracteres',
+                    ]"
+                  />
+                </q-form>
               </div>
               <div class="col-auto">
                 <div class="row justify-end q-gutter-sm">
@@ -186,13 +190,13 @@ export default {
       slide: 1,
       qty: 1,
       productDetails: {
+        id: "",
         nombre: "",
         descripcion: "",
         categoria: "",
         precio: "",
         stock: "",
         fotos: [],
-        id: "",
       },
     };
   },
@@ -212,7 +216,7 @@ export default {
       };
       this.$axios({
         method: "POST",
-        url: "/api/products/",
+        url: "/api/products",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -222,37 +226,56 @@ export default {
       })
         .then((response) => {
           this.productDetails = response.data.data;
-          this.$refs.uploader.upload();
+          if (this.counter > 0) this.$refs.uploader.upload();
+          else this.doneMessage();
         })
-        .catch((error) => {
+        .catch(() => {
           this.loading = false;
           this.$q.notify({
             position: "bottom-right",
             color: "negative",
-            message: `Error al crear el producto: ${error}`,
+            message: `Error al crear el producto`,
           });
         });
     },
 
-    goHome() {
+    addFiles(files) {
+      this.counter = this.counter + files.length;
+    },
+
+    removeFiles(files) {
+      this.counter = this.counter - files.length;
+    },
+
+    uploadedFile() {
       this.counter--;
-      if (this.counter == 0) {
-        this.loading = false;
-        this.$router.push("/");
-        this.$q.notify({
-          position: "bottom-right",
-          color: "positive",
-          message: "Producto creado con éxito",
-        });
-      }
+      if (this.counter <= 0) this.doneMessage();
+    },
+
+    doneMessage() {
+      this.loading = false;
+      this.$refs.formRef.reset();
+      this.$refs.uploader.removeUploadedFiles();
+      this.counter = 0;
+      this.$q.notify({
+        position: "bottom-right",
+        color: "positive",
+        message: "Producto creado con éxito",
+      });
+    },
+
+    formReset() {
+      this.productDetails.id = "";
+      this.productDetails.nombre = "";
+      this.productDetails.descripcion = "";
+      this.productDetails.categoria = "";
+      this.productDetails.precio = "";
+      this.productDetails.stock = "";
+      this.productDetails.fotos = [];
     },
 
     isInvalidForm() {
-      this.$refs.nombreRef.validate();
-      this.$refs.precioRef.validate();
-      this.$refs.stockRef.validate();
-      this.$refs.categoriaRef.validate();
-      this.$refs.descripcionRef.validate();
+      this.$refs.formRef.validate();
       if (
         this.$refs.nombreRef.hasError ||
         this.$refs.precioRef.hasError ||
@@ -265,7 +288,6 @@ export default {
     },
 
     factoryFn(file) {
-      this.counter++;
       const re = /(?:\.([^.]+))?$/;
       const type = re.exec(file[0].name)[1];
       return new Promise((resolve, reject) => {

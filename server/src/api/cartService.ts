@@ -35,7 +35,7 @@ class CartService {
   async deleteProductFromCart(cartId: string, cartItem: CartItemI): Promise<void> {
     const query = { id: cartItem.product }
     const result = await productS.getProducts(query)
-    if (result.length < 1) throw new Error('Product not found')
+    if (result.length < 1) throw new Error('product not found')
     return this.carts.deleteProductFromCart(cartId, cartItem)
   }
 

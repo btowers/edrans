@@ -51,49 +51,56 @@
           <q-card-section style="width: 100%">
             <div class="column justify-between" style="height: 600px">
               <div class="col">
-                <q-input
-                  v-model="productDetails.nombre"
-                  name="nombre"
-                  ref="nombreRef"
-                  label="Nombre"
-                  :rules="[(val) => !!val || 'Campo requerido']"
-                />
-                <q-input
-                  class="my-input"
-                  v-model="productDetails.precio"
-                  prefix="$"
-                  type="precio"
-                  name="precio"
-                  ref="precioRef"
-                  label="Precio"
-                  :rules="[(val) => !!val || 'Campo requerido']"
-                />
-                <q-input
-                  class="my-input"
-                  v-model="productDetails.stock"
-                  suffix="un."
-                  type="stock"
-                  name="stock"
-                  ref="stockRef"
-                  label="Stock"
-                  :rules="[(val) => !!val || 'Campo requerido']"
-                />
-                <q-input
-                  v-model="productDetails.categoria"
-                  type="categoria"
-                  name="categoria"
-                  ref="categoriaRef"
-                  label="Categoría"
-                  :rules="[(val) => !!val || 'Campo requerido']"
-                />
-                <q-input
-                  v-model="productDetails.descripcion"
-                  type="textarea"
-                  name="descripcion"
-                  ref="descripcionRef"
-                  label="Descripción"
-                  :rules="[(val) => !!val || 'Campo requerido']"
-                />
+                <q-form ref="formRef">
+                  <q-input
+                    :readonly="loading"
+                    v-model="productDetails.nombre"
+                    name="nombre"
+                    ref="nombreRef"
+                    label="Nombre"
+                    :rules="[(val) => !!val || 'Campo requerido']"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    class="my-input"
+                    v-model="productDetails.precio"
+                    prefix="$"
+                    type="precio"
+                    name="precio"
+                    ref="precioRef"
+                    label="Precio"
+                    :rules="[(val) => !!val || 'Campo requerido']"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    class="my-input"
+                    v-model="productDetails.stock"
+                    suffix="un."
+                    type="stock"
+                    name="stock"
+                    ref="stockRef"
+                    label="Stock"
+                    :rules="[(val) => !!val || 'Campo requerido']"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    v-model="productDetails.categoria"
+                    type="categoria"
+                    name="categoria"
+                    ref="categoriaRef"
+                    label="Categoría"
+                    :rules="[(val) => !!val || 'Campo requerido']"
+                  />
+                  <q-input
+                    :readonly="loading"
+                    v-model="productDetails.descripcion"
+                    type="textarea"
+                    name="descripcion"
+                    ref="descripcionRef"
+                    label="Descripción"
+                    :rules="[(val) => !!val || 'Campo requerido']"
+                  />
+                </q-form>
               </div>
               <div class="col-auto">
                 <div class="row justify-end q-gutter-sm">
@@ -106,7 +113,7 @@
                     <q-btn
                       color="primary"
                       label="Guardar"
-                      :loading="loadingBtn"
+                      :loading="loading"
                       @click="updateProduct"
                     />
                   </div>
@@ -131,7 +138,6 @@ export default {
   },
   data() {
     return {
-      loadingBtn: false,
       loading: false,
       qty: 1,
       productDetails: {
@@ -177,7 +183,7 @@ export default {
       if (this.isInvalidForm()) {
         return;
       }
-      this.loadingBtn = true;
+      this.loading = true;
       const updatedProduct = {
         nombre: this.productDetails.nombre,
         descripcion: this.productDetails.descripcion,
@@ -196,7 +202,7 @@ export default {
         data: updatedProduct,
       })
         .then(() => {
-          this.loadingBtn = false;
+          this.loading = false;
           this.$router.push("/");
           this.$q.notify({
             position: "bottom-right",
@@ -205,7 +211,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.loadingBtn = false;
+          this.loading = false;
           this.$q.notify({
             position: "bottom-right",
             color: "negative",
@@ -250,11 +256,7 @@ export default {
     },
 
     isInvalidForm() {
-      this.$refs.nombreRef.validate();
-      this.$refs.precioRef.validate();
-      this.$refs.stockRef.validate();
-      this.$refs.categoriaRef.validate();
-      this.$refs.descripcionRef.validate();
+      this.$refs.formRef.validate();
       if (
         this.$refs.nombreRef.hasError ||
         this.$refs.precioRef.hasError ||

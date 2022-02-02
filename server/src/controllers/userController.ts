@@ -1,11 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import passport from 'passport'
-import {
-  UpdateUserI,
-  UserI,
-  UserIdJoiSchema,
-  UserUpdateJoiSchema,
-} from '../interfaces/userInterface'
+import { UpdateUserI, UserI, UserUpdateJoiSchema } from '../interfaces/userInterface'
 import { userS } from '../api/userService'
 import { generateJWT } from '../utils/generateJWT'
 import 'express-async-errors'
@@ -32,10 +27,10 @@ class UserController {
     passport.authenticate('login', { session: false }, async (err, user, info) => {
       if (err) next(new Error('usuario/contraseña incorrectos'))
       else {
-        if (!user) next(new Error('missing credentials'))
+        if (!user) next(new Error('missing credentials1'))
         else {
           const token = await generateJWT(user)
-          if (!token) return new Error('missing token')
+          if (!token) next(new Error('missing token'))
           else res.cookie('token', token).json({ token })
         }
       }
@@ -44,9 +39,9 @@ class UserController {
 
   async signup(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('signup', { session: false }, function (err, user, info) {
-      if (err) next(new Error(err.message))
+      if (err) next(new Error('missing credentials2'))
       else {
-        if (!user) next(new Error(info.message))
+        if (!user) next(new Error('missing credentials3'))
         else res.status(201).json({ data: user })
       }
     })(req, res, next)
@@ -57,9 +52,9 @@ class UserController {
       'facebook',
       { session: false, scope: ['email'] },
       async function (err, user, info) {
-        if (err) next(new Error(err.message))
+        if (err) next(new Error('missing credentials4'))
         else {
-          if (!user) next(new Error(info.message))
+          if (!user) next(new Error('missing credentials5'))
           else {
             const token = await generateJWT(user)
             if (!token) next(new Error('missing token'))
@@ -73,11 +68,11 @@ class UserController {
   async isAuth(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       const protectedAdminRoutes: string[] = ['/api/products']
-      if (err) next(new Error(err.message))
+      if (err) next(new Error('missing credentials6'))
       else {
-        if (!user) next(new Error(info.message))
+        if (!user) next(new Error('missing credentials7'))
         else if ((protectedAdminRoutes.includes(req.baseUrl) && !user.admin) || info) {
-          throw next(Error('missing admin rights'))
+          next(new Error('missing admin rights'))
         } else {
           req.user = user
           next()

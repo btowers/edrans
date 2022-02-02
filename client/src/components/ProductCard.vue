@@ -8,7 +8,15 @@
           "
           style="width: 300px; height: 300px"
           fit="contain"
-        />
+        >
+          <template v-slot:error>
+            <div
+              class="absolute-full flex flex-center bg-blue-grey-14 text-white"
+            >
+              Producto sin imagen
+            </div>
+          </template>
+        </q-img>
       </div>
       <q-card-section>
         <q-item-section>

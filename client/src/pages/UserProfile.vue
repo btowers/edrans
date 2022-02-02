@@ -28,98 +28,106 @@
           </q-card-section>
           <q-separator vertical />
           <q-card-section style="width: 100%">
-            <q-input
-              @keyup.enter="updateUser"
-              v-model="user.direccion.calle"
-              name="calle"
-              ref="calleRef"
-              label="Calle"
-              lazy-rules
-              :rules="[
-                (val) => !!val || 'Campo requerido',
-                (val) =>
-                  !!val.match(/^[a-zA-Z0-9\s]{3,}$/) ||
-                  'La calle debe tener al menos 3 caracteres',
-              ]"
-            />
-            <q-input
-              @keyup.enter="updateUser"
-              v-model="user.direccion.altura"
-              name="altura"
-              ref="alturaRef"
-              label="Altura"
-              lazy-rules
-              :rules="[
-                (val) => !!val || 'Campo requerido',
-                (val) =>
-                  !!val.match(/^[0-9]{1,4}$/) ||
-                  'La altura debe tener entre 1 y 4 digitos',
-              ]"
-            />
-            <q-input
-              @keyup.enter="updateUser"
-              v-model="user.direccion.cp"
-              name="cp"
-              ref="cpRef"
-              label="CP"
-              lazy-rules
-              :rules="[
-                (val) => !!val || 'Campo requerido',
-                (val) =>
-                  !!val.match(/^[0-9]{1,4}$/) ||
-                  'El CP debe tener entre 1 y 4 digitos',
-              ]"
-            />
-            <q-input
-              @keyup.enter="updateUser"
-              v-model="user.direccion.piso"
-              name="piso"
-              ref="pisoRef"
-              label="Piso"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  !!val.match(/^(\s*|\d+)$/) ||
-                  'El piso debe tener entre 0 y 3 digitos',
-              ]"
-            />
-            <q-input
-              @keyup.enter="updateUser"
-              v-model="user.direccion.departamento"
-              name="departamento"
-              ref="departamentoRef"
-              label="Departamento"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  !!val.match(/^[a-zA-Z]{0,3}$/) ||
-                  'El departamento debe tener entre 0 y 3 letras',
-              ]"
-            />
-            <q-input
-              @keyup.enter="updateUser"
-              v-model="user.password"
-              :type="isPwd ? 'password' : 'text'"
-              name="password"
-              ref="passwordRef"
-              label="Nueva Contraseña"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  !!val.match(
-                    /^\s*$|(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/
-                  ) ||
-                  'La contraseña debe contener al menos 8 caracteres, 1 numero, 1 letra mayuscula y un símbolo',
-              ]"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-                />
-              </template>
-            </q-input>
+            <q-form ref="formRef">
+              <q-input
+                :readonly="loading"
+                @keyup.enter="updateUser"
+                v-model="user.direccion.calle"
+                name="calle"
+                ref="calleRef"
+                label="Calle"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Campo requerido',
+                  (val) =>
+                    !!val.match(/^[a-zA-Z0-9\s]{3,}$/) ||
+                    'La calle debe tener al menos 3 caracteres',
+                ]"
+              />
+              <q-input
+                :readonly="loading"
+                @keyup.enter="updateUser"
+                v-model="user.direccion.altura"
+                name="altura"
+                ref="alturaRef"
+                label="Altura"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Campo requerido',
+                  (val) =>
+                    !!val.match(/^[0-9]{1,4}$/) ||
+                    'La altura debe tener entre 1 y 4 digitos',
+                ]"
+              />
+              <q-input
+                :readonly="loading"
+                @keyup.enter="updateUser"
+                v-model="user.direccion.cp"
+                name="cp"
+                ref="cpRef"
+                label="CP"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Campo requerido',
+                  (val) =>
+                    !!val.match(/^[0-9]{1,4}$/) ||
+                    'El CP debe tener entre 1 y 4 digitos',
+                ]"
+              />
+              <q-input
+                :readonly="loading"
+                @keyup.enter="updateUser"
+                v-model="user.direccion.piso"
+                name="piso"
+                ref="pisoRef"
+                label="Piso"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    !!val.match(/^(\s*|\d+)$/) ||
+                    'El piso debe tener entre 0 y 3 digitos',
+                ]"
+              />
+              <q-input
+                :readonly="loading"
+                @keyup.enter="updateUser"
+                v-model="user.direccion.departamento"
+                name="departamento"
+                ref="departamentoRef"
+                label="Departamento"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    !!val.match(/^[a-zA-Z]{0,3}$/) ||
+                    'El departamento debe tener entre 0 y 3 letras',
+                ]"
+              />
+              <q-input
+                :readonly="loading"
+                @keyup.enter="updateUser"
+                v-model="user.password"
+                :type="isPwd ? 'password' : 'text'"
+                name="password"
+                ref="passwordRef"
+                label="Nueva Contraseña"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    !!val.match(
+                      /^\s*$|(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/
+                    ) ||
+                    'La contraseña debe contener al menos 8 caracteres, 1 numero, 1 letra mayuscula y un símbolo',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
+              </q-input>
+            </q-form>
           </q-card-section>
         </q-card-section>
         <q-card-section>
