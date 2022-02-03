@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column items-center">
+  <div class="column items-center">
     <div class="productList">
       <q-table
         grid
@@ -17,22 +17,22 @@
           </q-btn>
         </template>
         <template v-slot:item="props">
-          <product-card :item="props" @reloadProducts="getProducts" />
+          <product-list-item :item="props" @reloadProducts="getProducts" />
         </template>
       </q-table>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>
-import ProductCard from "src/components/ProductCard.vue";
+import ProductListItem from "src/components/products/ProductListItem.vue";
 
 import { mapState } from "vuex";
 
 export default {
   name: "ProductListPage",
   components: {
-    ProductCard,
+    ProductListItem,
   },
   data() {
     return {
@@ -92,8 +92,6 @@ export default {
         method: "GET",
         url: "/api/products/",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
       }).then((response) => {

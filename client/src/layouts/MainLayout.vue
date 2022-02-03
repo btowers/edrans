@@ -3,16 +3,14 @@
     <layout-header />
     <layout-drawer :links="links" />
     <q-page-container>
-      <transition>
-        <router-view />
-      </transition>
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import LayoutHeader from "src/components/LayoutHeader.vue";
-import LayoutDrawer from "src/components/LayoutDrawer.vue";
+import LayoutHeader from "src/components/core/Header.vue";
+import LayoutDrawer from "src/components/core/Drawer.vue";
 
 export default {
   name: "MainLayout",
@@ -28,13 +26,3 @@ export default {
   },
 };
 </script>
-
-<style lang="css" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-</style>

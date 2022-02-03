@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column items-center">
+  <div class="column items-center">
     <back-button />
     <div class="base-width">
       <page-title title="Editar Producto" />
@@ -126,12 +126,13 @@
         </q-card-section>
       </q-card>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>
-import PageTitle from "../../components/PageTitle.vue";
-import BackButton from "../../components/BackButton.vue";
+import PageTitle from "../core/PageTitle.vue";
+import BackButton from "../core/BackButton.vue";
+
 export default {
   name: "EditProductPage",
   components: {
@@ -164,8 +165,6 @@ export default {
         method: "GET",
         url: "/api/products/" + this.$route.params.id,
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
       })
@@ -198,8 +197,6 @@ export default {
         method: "PUT",
         url: "/api/products/" + this.$route.params.id,
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
         data: updatedProduct,
@@ -228,8 +225,6 @@ export default {
         method: "PUT",
         url: "api/image",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
         data: {
@@ -279,8 +274,6 @@ export default {
           method: "POST",
           url: "api/image/presignedurl",
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
             Authorization: "Bearer " + this.$q.cookies.get("token"),
           },
           data: {

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column items-center">
+  <div class="column items-center">
     <back-button />
     <div class="base-width">
       <page-title title="Editar Perfil" />
@@ -154,12 +154,12 @@
         </q-card-section>
       </q-card>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>
-import PageTitle from "../components/PageTitle.vue";
-import BackButton from "../components/BackButton.vue";
+import PageTitle from "./core/PageTitle.vue";
+import BackButton from "./core/BackButton.vue";
 
 export default {
   name: "RegisterPage",
@@ -215,8 +215,6 @@ export default {
         method: "PUT",
         url: "/api/user",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
         data: fields,

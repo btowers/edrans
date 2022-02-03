@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column items-center">
+  <div class="column items-center">
     <back-button />
     <div class="base-width">
       <page-title title="Carrito" />
@@ -37,7 +37,7 @@
               <q-td>{{ formattedPrice(props.row.product.precio) }}</q-td>
               <q-td>
                 <q-btn
-                  @click="removeItem(props.row)"
+                  @click="removeItemfromCart(props.row)"
                   flat
                   round
                   color="red"
@@ -57,7 +57,7 @@
         <div style="width: 100% flex justify-right">
           <q-btn
             class="q-mt-md"
-            @click="buy"
+            @click="buyCart"
             color="primary"
             label="Comprar"
             :disable="btnLoading"
@@ -65,12 +65,12 @@
         </div>
       </div>
     </div>
-  </q-page>
+  </div>
 </template>
-
 <script>
-import PageTitle from "../components/PageTitle.vue";
-import BackButton from "../components/BackButton.vue";
+import PageTitle from "./core/PageTitle.vue";
+import BackButton from "./core/BackButton.vue";
+
 export default {
   name: "Cart",
   components: {
@@ -121,18 +121,16 @@ export default {
     };
   },
   created() {
-    this.getProducts();
+    this.getCart();
   },
 
   methods: {
-    async getProducts() {
+    async getCart() {
       this.loading = true;
       this.$axios({
         method: "GET",
         url: "/api/cart",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
       })
@@ -149,14 +147,12 @@ export default {
         });
     },
 
-    buy() {
+    buyCart() {
       this.btnLoading = true;
       this.$axios({
         method: "GET",
         url: "/api/cart/submit",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
       })
@@ -167,7 +163,7 @@ export default {
             message: "Compra realizada con éxito",
           });
           this.btnLoading = false;
-          this.getProducts();
+          this.getCart();
         })
         .catch((err) => {
           this.$q.notify({
@@ -179,7 +175,7 @@ export default {
         });
     },
 
-    removeItem(item) {
+    removeItemfromCart(item) {
       this.btnLoading = true;
       const cartItem = {
         product: item.product.id,
@@ -189,8 +185,6 @@ export default {
         method: "POST",
         url: "/api/cart/delete",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
         data: cartItem,
@@ -202,7 +196,7 @@ export default {
             message: "Producto eliminado con éxito",
           });
           this.btnLoading = false;
-          this.getProducts();
+          this.getCart();
         })
         .catch((err) => {
           this.$q.notify({

@@ -1,56 +1,61 @@
 <template>
-  <div class="column productDetail">
-    <div class="row">
-      <div class="col-12 col-md-6 q-pa-sm">
-        <q-carousel animated thumbnails v-model="slide" arrows infinite>
-          <q-carousel-slide
-            v-for="(slide, index) in productDetails.fotos"
-            :key="slide"
-            :name="index + 1"
-            :img-src="'https://coderhouse-ecommerce.s3.amazonaws.com/' + slide"
-          ></q-carousel-slide>
-        </q-carousel>
-      </div>
-      <div class="col-12 col-md-6 q-pa-sm column justify-between">
-        <div>
-          <div class="text-h4">{{ productDetails.nombre }}</div>
-          <div class="text-h6">{{ formattedPrice }}</div>
-          <div>{{ productDetails.stock + " un. disponibles" }}</div>
-          <q-rating v-model="rating" size="2em" icon="star" />
+  <div class="column items-center">
+    <div class="productDetail">
+      <div class="row">
+        <div class="col-12 col-md-6 q-pa-sm">
+          <q-carousel animated thumbnails v-model="slide" arrows infinite>
+            <q-carousel-slide
+              v-for="(slide, index) in productDetails.fotos"
+              :key="slide"
+              :name="index + 1"
+              :img-src="
+                'https://coderhouse-ecommerce.s3.amazonaws.com/' + slide
+              "
+            ></q-carousel-slide>
+          </q-carousel>
         </div>
-        <div class="row" v-if="isLoggedIn">
+        <div class="col-12 col-md-6 q-pa-sm column justify-between">
           <div>
-            <q-input
-              v-model.number="qty"
-              type="number"
-              :rules="[
-                (val) =>
-                  val <= this.productDetails.stock || 'No hay stock suficiente',
-                (val) => val > 0 || 'La cantidad debe ser mayor a 0',
-              ]"
-              outlined
-              dense
-              style="max-width: 120px"
-              suffix="un."
-              class="q-mr-sm"
-            />
+            <div class="text-h4">{{ productDetails.nombre }}</div>
+            <div class="text-h6">{{ formattedPrice }}</div>
+            <div>{{ productDetails.stock + " un. disponibles" }}</div>
+            <q-rating v-model="rating" size="2em" icon="star" />
           </div>
-          <div>
-            <q-btn
-              :disable="loading || qty <= 0 || qty > productDetails.stock"
-              :loading="loading"
-              icon="add_shopping_cart"
-              color="primary"
-              label="Agregar"
-              @click="addToCart"
-            />
+          <div class="row" v-if="isLoggedIn">
+            <div>
+              <q-input
+                v-model.number="qty"
+                type="number"
+                :rules="[
+                  (val) =>
+                    val <= this.productDetails.stock ||
+                    'No hay stock suficiente',
+                  (val) => val > 0 || 'La cantidad debe ser mayor a 0',
+                ]"
+                outlined
+                dense
+                style="max-width: 120px"
+                suffix="un."
+                class="q-mr-sm"
+              />
+            </div>
+            <div>
+              <q-btn
+                :disable="loading || qty <= 0 || qty > productDetails.stock"
+                :loading="loading"
+                icon="add_shopping_cart"
+                color="primary"
+                label="Agregar"
+                @click="addToCart"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="column q-pa-sm">
-      <div class="text-h6">Descripción</div>
-      <div>{{ productDetails.descripcion }}</div>
+      <div class="column q-pa-sm">
+        <div class="text-h6">Descripción</div>
+        <div>{{ productDetails.descripcion }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -98,8 +103,6 @@ export default {
         method: "GET",
         url: "/api/products/" + this.$route.params.id,
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
       })
@@ -125,8 +128,6 @@ export default {
         method: "PUT",
         url: "/api/cart/add",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: "Bearer " + this.$q.cookies.get("token"),
         },
         data: cartItem,
@@ -152,3 +153,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.productDetail {
+  width: 100%;
+  max-width: 800px;
+}
+</style>

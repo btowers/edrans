@@ -25,9 +25,9 @@ class UserController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('login', { session: false }, async (err, user, info) => {
-      if (err) next(new Error('usuario/contraseña incorrectos'))
+      if (err) next(new Error('usuario/contraseña incorrectosss'))
       else {
-        if (!user) next(new Error('missing credentials1'))
+        if (!user) next(new Error('usuario/contraseña incorrectos'))
         else {
           const token = await generateJWT(user)
           if (!token) next(new Error('missing token'))

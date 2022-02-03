@@ -1,7 +1,7 @@
 <template>
   <q-layout>
     <q-page-container>
-      <div class="myclass">
+      <div class="greyBg">
         <router-view />
       </div>
     </q-page-container>
@@ -9,14 +9,12 @@
 </template>
 
 <script>
-import { ref } from "vue";
-
 export default {
   name: "CleanLayout",
 };
 </script>
 <style scoped>
-.myclass {
+.greyBg {
   background-color: #fafafa;
 }
 </style>

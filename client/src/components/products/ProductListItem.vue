@@ -59,7 +59,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "ProductCard",
+  name: "ProductListItem",
   props: ["item"],
   data() {
     return {
@@ -80,7 +80,7 @@ export default {
   methods: {
     openProduct() {
       this.$router.push({
-        name: "ProductDetailPage",
+        name: "ProductDetail",
         params: {
           id: this.item.row.id,
         },
