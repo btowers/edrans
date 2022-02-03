@@ -43,7 +43,7 @@ app.use(passport.initialize())
 app.use('/api', apiRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(docs))
 app.use(history())
-app.use(express.static(path.resolve(__dirname, '../../public')))
+app.use(express.static(path.resolve(__dirname, '../../public/spa')))
 
 // 7 - Create Server
 const server = http.createServer(app)
