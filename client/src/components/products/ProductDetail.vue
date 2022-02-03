@@ -1,5 +1,6 @@
 <template>
   <div class="column items-center">
+    <back-button />
     <div class="productDetail">
       <div class="row">
         <div class="col-12 col-md-6 q-pa-sm">
@@ -60,8 +61,10 @@
   </div>
 </template>
 <script>
+import BackButton from "../core/BackButton.vue";
 export default {
   name: "Product",
+  components: { BackButton },
   data() {
     return {
       loading: false,
