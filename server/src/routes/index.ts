@@ -1,12 +1,12 @@
 /* eslint-disable new-cap */
 import { Router } from 'express'
+import { ErrorsM } from '../middleware/errors'
 import productsRouter from './productsRouter'
 import ordersRouter from './ordersRouter'
 import cartRouter from './cartRouter'
 import userRouter from './userRouter'
 import imageRouter from './imageRouter'
 import 'express-async-errors'
-import { ErrorsM } from '../middleware/errors'
 
 const router = Router()
 
